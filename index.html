@@ -27,15 +27,15 @@ body{background:var(--bg);color:var(--text);font-family:'Syne',sans-serif;min-he
 .grid-fx{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.18;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:40px 40px;}
 
 /* HEADER */
-#hdr{position:sticky;top:0;z-index:200;background:rgba(3,3,8,.96);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:calc(14px + env(safe-area-inset-top)) 16px 12px;}
+#hdr{position:sticky;top:0;z-index:200;background:rgba(6,6,16,.97);backdrop-filter:blur(24px);border-bottom:1px solid rgba(255,255,255,.08);padding:calc(14px + env(safe-area-inset-top)) 16px 12px;}
 .hdr-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
 .brand{font-family:'Space Mono',monospace;font-size:16px;font-weight:700;letter-spacing:.15em;background:linear-gradient(90deg,#fff 20%,var(--mint),var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-.version{font-family:'Space Mono',monospace;font-size:7px;color:var(--dim);letter-spacing:.2em;margin-top:1px;}
-.hdr-tabs{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px;margin-bottom:10px;}
+.version{font-family:'Space Mono',monospace;font-size:7px;color:var(--muted);letter-spacing:.2em;margin-top:1px;}
+.hdr-tabs{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:4px 2px 6px;margin-bottom:10px;}
 .hdr-tabs::-webkit-scrollbar{display:none;}
-.hbtn{font-family:'Space Mono',monospace;font-size:8px;font-weight:700;letter-spacing:.06em;padding:7px 10px;border-radius:var(--r-sm);border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;transition:all .2s;-webkit-tap-highlight-color:transparent;white-space:nowrap;}
-.hbtn:active{border-color:var(--gold);color:var(--gold);}
-.hbtn.purple{border-color:rgba(124,58,255,.3);background:rgba(124,58,255,.06);color:var(--purple);}
+.hbtn{font-family:'Space Mono',monospace;font-size:8px;font-weight:700;letter-spacing:.06em;padding:7px 12px;border-radius:var(--r-sm);border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);color:rgba(255,255,255,.75);cursor:pointer;transition:all .2s;-webkit-tap-highlight-color:transparent;white-space:nowrap;}
+.hbtn:active{border-color:var(--gold);color:var(--gold);background:rgba(255,184,48,.08);}
+.hbtn.purple{border-color:rgba(124,58,255,.5);background:rgba(124,58,255,.12);color:#b794ff;}
 .hbtn.purple:active{background:rgba(124,58,255,.15);}
 .btn-add{width:36px;height:36px;border-radius:50%;border:none;background:var(--mint);color:#000;font-size:20px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .15s;-webkit-tap-highlight-color:transparent;}
 .btn-add:active{transform:scale(.9);}
@@ -55,11 +55,11 @@ body{background:var(--bg);color:var(--text);font-family:'Syne',sans-serif;min-he
 /* WEEK GRID */
 #weekGrid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;padding:12px 16px 0;overflow-x:auto;}
 @media(max-width:480px){#weekGrid{grid-template-columns:repeat(7,minmax(90px,1fr));padding-bottom:4px;}}
-.day-col{background:rgba(255,255,255,.01);border:1px solid var(--border);border-radius:var(--r-md);padding:8px 6px;min-width:90px;}
-.day-col.today{border-color:rgba(0,245,160,.25);background:rgba(0,245,160,.02);}
+.day-col{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:var(--r-md);padding:8px 6px;min-width:90px;}
+.day-col.today{border-color:rgba(0,245,160,.5);background:rgba(0,245,160,.05);}
 .day-hdr{text-align:center;margin-bottom:8px;}
-.day-name{font-family:'Space Mono',monospace;font-size:8px;font-weight:700;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;}
-.day-num{font-family:'Space Mono',monospace;font-size:18px;font-weight:700;color:var(--text);line-height:1.1;margin-top:2px;}
+.day-name{font-family:'Space Mono',monospace;font-size:8px;font-weight:700;color:rgba(255,255,255,.5);letter-spacing:.1em;text-transform:uppercase;}
+.day-num{font-family:'Space Mono',monospace;font-size:18px;font-weight:700;color:rgba(255,255,255,.85);line-height:1.1;margin-top:2px;}
 .day-col.today .day-num{color:var(--mint);}
 .day-posts{display:flex;flex-direction:column;gap:5px;}
 
@@ -83,7 +83,7 @@ body{background:var(--bg);color:var(--text);font-family:'Syne',sans-serif;min-he
 .st-ready{background:rgba(255,184,48,.1);color:var(--gold);border:1px solid rgba(255,184,48,.2);}
 .st-scheduled{background:rgba(0,229,255,.1);color:var(--blue);border:1px solid rgba(0,229,255,.2);}
 .st-published{background:rgba(0,245,160,.1);color:var(--mint);border:1px solid rgba(0,245,160,.2);}
-.day-empty{text-align:center;padding:12px 4px;font-family:'Space Mono',monospace;font-size:8px;color:var(--dim);line-height:1.6;cursor:pointer;border:1px dashed var(--dim);border-radius:var(--r-sm);transition:all .2s;-webkit-tap-highlight-color:transparent;}
+.day-empty{text-align:center;padding:12px 4px;font-family:'Space Mono',monospace;font-size:8px;color:rgba(255,255,255,.35);line-height:1.6;cursor:pointer;border:1px dashed rgba(255,255,255,.2);border-radius:var(--r-sm);transition:all .2s;-webkit-tap-highlight-color:transparent;}
 .day-empty:active{border-color:var(--mint);color:var(--mint);}
 
 /* MODALS */
@@ -123,7 +123,7 @@ body{background:var(--bg);color:var(--text);font-family:'Syne',sans-serif;min-he
 .plat-btn.active.facebook{border-color:var(--facebook);background:rgba(0,229,255,.08);color:var(--facebook);}
 
 /* FORM */
-.lbl{font-family:'Space Mono',monospace;font-size:8px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px;display:block;}
+.lbl{font-family:'Space Mono',monospace;font-size:8px;color:rgba(255,255,255,.5);letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px;display:block;}
 input,select,textarea{width:100%;padding:10px 12px;background:rgba(0,0,0,.4);border:1px solid var(--border);border-radius:var(--r-sm);color:var(--text);font-family:'Space Mono',monospace;font-size:11px;outline:none;margin-bottom:10px;transition:border-color .2s;}
 input:focus,select:focus,textarea:focus{border-color:rgba(0,245,160,.4);}
 select option{background:#0D0D1A;}
@@ -196,6 +196,7 @@ textarea{resize:vertical;min-height:70px;line-height:1.6;}
 
 /* TEMPLATES */
 .tpl-card{background:rgba(0,0,0,.3);border:1px solid var(--border);border-radius:var(--r-md);padding:12px;margin-bottom:8px;position:relative;}
+.tpl-card.editing{border-color:var(--blue);background:rgba(0,229,255,.03);}
 .tpl-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;border-radius:2px 0 0 2px;}
 .tpl-card.tiktok::before{background:var(--tiktok);}
 .tpl-card.instagram::before{background:var(--instagram);}
@@ -298,19 +299,19 @@ textarea{resize:vertical;min-height:70px;line-height:1.6;}
 .profile-chip{
   flex-shrink:0;display:flex;align-items:center;gap:6px;
   font-family:'Space Mono',monospace;font-size:9px;font-weight:700;
-  padding:6px 12px;border-radius:20px;border:1px solid var(--border);
-  background:rgba(0,0,0,.3);color:var(--muted);cursor:pointer;
+  padding:6px 12px;border-radius:20px;border:1px solid rgba(255,255,255,.12);
+  background:rgba(255,255,255,.06);color:rgba(255,255,255,.6);cursor:pointer;
   transition:all .2s;-webkit-tap-highlight-color:transparent;
 }
-.profile-chip.active.artista{border-color:var(--mint);background:rgba(0,245,160,.08);color:var(--mint);}
-.profile-chip.active.productor{border-color:var(--gold);background:rgba(255,184,48,.08);color:var(--gold);}
-.profile-chip.active.influencer{border-color:var(--purple);background:rgba(124,58,255,.08);color:var(--purple);}
+.profile-chip.active.artista{border-color:var(--mint);background:rgba(0,245,160,.15);color:var(--mint);}
+.profile-chip.active.productor{border-color:var(--gold);background:rgba(255,184,48,.15);color:var(--gold);}
+.profile-chip.active.influencer{border-color:#b794ff;background:rgba(124,58,255,.18);color:#b794ff;}
 .profile-chip:active{transform:scale(.95);}
 .profile-dot{width:6px;height:6px;border-radius:50%;}
 .artista .profile-dot{background:var(--mint);}
 .productor .profile-dot{background:var(--gold);}
 .influencer .profile-dot{background:var(--purple);}
-.profile-manage{flex-shrink:0;font-family:'Space Mono',monospace;font-size:8px;padding:6px 10px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--dim);cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.profile-manage{flex-shrink:0;font-family:'Space Mono',monospace;font-size:8px;font-weight:700;padding:6px 12px;border-radius:20px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.06);color:rgba(255,255,255,.6);cursor:pointer;-webkit-tap-highlight-color:transparent;}
 .profile-manage:active{color:var(--mint);border-color:var(--mint);}
 
 /* PROFILE MODAL */
@@ -353,9 +354,9 @@ textarea{resize:vertical;min-height:70px;line-height:1.6;}
 
   <!-- TABS ROW: scrollable -->
   <div class="hdr-tabs">
-    <button class="hbtn" style="border-color:rgba(124,58,255,.3);background:rgba(124,58,255,.06);color:var(--purple);flex-shrink:0;" onclick="openTagBank()">＃ TAGS</button>
-    <button class="hbtn" style="border-color:rgba(0,229,255,.3);background:rgba(0,229,255,.06);color:var(--blue);flex-shrink:0;" onclick="openStats()">📊 STATS</button>
-    <button class="hbtn" style="border-color:rgba(255,184,48,.3);background:rgba(255,184,48,.06);color:var(--gold);flex-shrink:0;" onclick="openTemplates()">☰ PLANTILLAS</button>
+    <button class="hbtn" style="border-color:rgba(124,58,255,.5);background:rgba(124,58,255,.14);color:#b794ff;flex-shrink:0;" onclick="openTagBank()">＃ TAGS</button>
+    <button class="hbtn" style="border-color:rgba(0,229,255,.5);background:rgba(0,229,255,.12);color:#5eebff;flex-shrink:0;" onclick="openStats()">📊 STATS</button>
+    <button class="hbtn" style="border-color:rgba(255,184,48,.5);background:rgba(255,184,48,.12);color:#ffd166;flex-shrink:0;" onclick="openTemplates()">☰ PLANTILLAS</button>
     <button class="hbtn purple" style="flex-shrink:0;" onclick="openConfig()">⚙ CONFIG</button>
     <button class="hbtn purple" style="flex-shrink:0;" onclick="openHelp()">? GUÍA</button>
     <button class="hbtn" style="flex-shrink:0;" onclick="exportJSON()">⬇ JSON</button>
@@ -655,12 +656,32 @@ textarea{resize:vertical;min-height:70px;line-height:1.6;}
   <div class="modal-box">
     <div class="modal-handle"></div>
     <div class="modal-title">
-      <span>Plantillas</span>
+      <span id="tplModalTitle">Plantillas</span>
       <button class="modal-close" onclick="closeTplModal()">×</button>
     </div>
 
-    <div class="sec gold">Nueva plantilla</div>
-    <label class="lbl">Nombre de la plantilla</label>
+    <!-- AI GENERATION -->
+    <div class="ai-box" style="margin-bottom:14px;">
+      <div class="ai-box-title">✨ Generar plantilla con IA</div>
+      <label class="lbl">Tipo de contenido</label>
+      <input type="text" id="tplAiTopic" class="ai-topic" placeholder="Ej: lanzamiento de beat, nuevo sencillo, reflexión personal..."/>
+      <label class="lbl">Plataforma objetivo</label>
+      <select id="tplAiPlat" style="margin-bottom:8px;">
+        <option value="all">Todas las plataformas</option>
+        <option value="tiktok">TikTok</option>
+        <option value="instagram">Instagram</option>
+        <option value="youtube">YouTube</option>
+        <option value="facebook">Facebook</option>
+      </select>
+      <button class="btn-ai" onclick="generateTemplate()" id="btnGenTpl">✨ Generar estructura</button>
+      <div class="ai-loading" id="tplAiLoading">
+        <div class="dot-pulse"></div><div class="dot-pulse"></div><div class="dot-pulse"></div>
+        <span>Generando plantilla...</span>
+      </div>
+    </div>
+
+    <div class="sec gold" id="tplFormSec">Nueva plantilla manual</div>
+    <label class="lbl">Nombre</label>
     <input type="text" id="tplName" placeholder="Ej: Beat showcase TikTok"/>
     <label class="lbl">Plataforma</label>
     <select id="tplPlat">
@@ -671,16 +692,18 @@ textarea{resize:vertical;min-height:70px;line-height:1.6;}
       <option value="facebook">Facebook</option>
     </select>
     <div class="placeholder-hint">
-      Usa variables en el caption: <code>{tema}</code> <code>{artista}</code> <code>{genero}</code> <code>{fecha}</code><br>
-      La IA las reemplazará con el contexto del post cuando uses la plantilla.
+      Variables: <code>{tema}</code> <code>{artista}</code> <code>{genero}</code> <code>{fecha}</code>
     </div>
     <label class="lbl">Caption base</label>
     <textarea id="tplCaption" placeholder="Ej: Nuevo beat disponible 🔥&#10;{tema}&#10;Link en bio 👇" style="min-height:90px;"></textarea>
     <label class="lbl">Hashtags base</label>
     <input type="text" id="tplHashtags" placeholder="#trap #beats #mkeyz"/>
-    <button class="btn btn-mint" onclick="saveTpl()" style="margin-bottom:16px;">+ Guardar plantilla</button>
+    <div class="btn-row" style="margin-bottom:16px;">
+      <button class="btn btn-ghost" id="btnCancelEdit" onclick="cancelEditTpl()" style="display:none;">Cancelar</button>
+      <button class="btn btn-mint" id="btnSaveTpl" onclick="saveTpl()">+ Guardar</button>
+    </div>
 
-    <div class="sec gold">Mis plantillas</div>
+    <div class="sec gold" id="tplListSec">Mis plantillas</div>
     <div id="tplList"></div>
   </div>
 </div>
@@ -811,7 +834,7 @@ textarea{resize:vertical;min-height:70px;line-height:1.6;}
 (()=>{
   const KEY     = 'mkeyz_publisher_v1';
   const CFG_KEY = 'mkeyz_publisher_cfg';
-  const TPL_KEY = 'mkeyz_publisher_tpl';
+  // TPL_KEY now per-profile via getTplKey()
   const DAYS    = ['DOM','LUN','MAR','MIÉ','JUE','VIE','SÁB'];
   const MONTHS  = ['ENE','FEB','MAR','ABR','MAY','JUN','JUL','AGO','SEP','OCT','NOV','DIC'];
 
@@ -821,14 +844,14 @@ textarea{resize:vertical;min-height:70px;line-height:1.6;}
     selectedStatus: 'draft', detailId: null,
   };
   let CFG = { apiKey:'', artist:'', genres:'', tone:'', lang:'es' };
-  let TPLS = [];
+  let TPLS = []; // loaded per-profile
 
   /* ── STORAGE ── */
   function save(){ savePostsForProfile(); }
   function load(){
     // posts loaded per-profile in loadProfiles()
     try{ Object.assign(CFG, JSON.parse(localStorage.getItem(CFG_KEY)||'{}')); }catch(e){}
-    try{ TPLS = JSON.parse(localStorage.getItem(TPL_KEY)||'[]'); }catch(e){ TPLS=[]; }
+    // TPLS loaded per-profile in loadTplsForProfile()
   }
   function saveCFG(){ localStorage.setItem(CFG_KEY, JSON.stringify(CFG)); }
   function saveTpls(){ localStorage.setItem(TPL_KEY, JSON.stringify(TPLS)); }
@@ -1383,6 +1406,7 @@ Responde ÚNICAMENTE con un JSON válido, sin markdown:
     ACTIVE_PRF_ID = id;
     localStorage.setItem(PRF_ACT_KEY, id);
     syncCFGFromProfile();
+    loadTplsForProfile();
     renderProfileBar();
     render();
     const p = getActiveProfile();
@@ -1685,57 +1709,129 @@ Responde ÚNICAMENTE con un JSON válido, sin markdown:
   window.closeStats = ()=>document.getElementById('statsModal').classList.remove('open');
 
   /* ── TEMPLATES ── */
+  const TPL_DEFAULTS = {
+    artista: [
+      { id:'tdf_a1', name:'Nuevo sencillo', platform:'tiktok',    caption:'🎵 {tema}\n\nEsta es la vibra. Ya disponible.\nLink en bio 👇', hashtags:'#newsong #newmusic #fyp' },
+      { id:'tdf_a2', name:'Conexión emocional', platform:'instagram', caption:'Hay canciones que escribes para ti...\n\n{tema}\n\nEste tema es {artista} en su forma más pura. 🖤', hashtags:'#music #newrelease #singer' },
+      { id:'tdf_a3', name:'Behind the scenes', platform:'tiktok',    caption:'Así nació esta canción 🎙️\n\n{tema}\n\nEl proceso nunca miente.', hashtags:'#bts #musicproduction #artist' },
+      { id:'tdf_a4', name:'Lanzamiento YouTube', platform:'youtube',  caption:'{tema} | {artista}\n\nYa disponible en todas las plataformas.\nSuscríbete para más música 🔔', hashtags:'#music #official #audio' },
+    ],
+    productor: [
+      { id:'tdf_p1', name:'Beat disponible', platform:'tiktok',    caption:'🔥 New beat just dropped\n\n{tema}\n\nBeatStars link en bio — free download disponible', hashtags:'#beatmaker #newbeat #trap' },
+      { id:'tdf_p2', name:'Showcase instrumental', platform:'instagram', caption:'Cuando el beat habla solo...\n\n{tema}\n\nDisponible para licencia. DM para info. 🎛', hashtags:'#producer #instrumental #beat' },
+      { id:'tdf_p3', name:'YouTube beat video', platform:'youtube',  caption:'{tema} | {genero} Beat | {artista}\n\nFree for profit — descarga en descripción\nPro license disponible', hashtags:'#beatvideo #typebeat #freebeat' },
+      { id:'tdf_p4', name:'Collab artista', platform:'instagram', caption:'Buscando artistas para este {genero}...\n\n{tema}\n\nDM si te interesa colaborar 🤝', hashtags:'#collab #producer #looking' },
+    ],
+    influencer: [
+      { id:'tdf_i1', name:'Reflexión del día', platform:'instagram', caption:'El alma vieja lo sabe...\n\n{tema}\n\n¿Tú qué piensas? 👇', hashtags:'#reflexion #lifestyle #pensamiento' },
+      { id:'tdf_i2', name:'Recomendación', platform:'tiktok',    caption:'Si no conoces esto, te estás perdiendo algo:\n\n{tema}\n\nTe lo aseguro. 💯', hashtags:'#recomendacion #fyp #tip' },
+      { id:'tdf_i3', name:'Historia personal', platform:'facebook', caption:'Hay momentos que te cambian.\n\n{tema}\n\nComparto esto porque sé que no soy el único que lo ha vivido.', hashtags:'#historia #vida #experiencia' },
+      { id:'tdf_i4', name:'Opinión/Tendencia', platform:'tiktok', caption:'Nadie lo dice pero hay que decirlo:\n\n{tema}\n\nAl menos desde mi perspectiva 🧠', hashtags:'#opinion #tendencia #viral' },
+    ],
+  };
+
+  let S_editTplId = null;
+
+  function getTplKey(){
+    return 'mkeyz_tpl_' + (getActiveProfile()?.id||'default');
+  }
+
+  function loadTplsForProfile(){
+    try{ TPLS = JSON.parse(localStorage.getItem(getTplKey())||'null'); }catch(e){ TPLS=null; }
+    if(!TPLS){
+      const p = getActiveProfile();
+      TPLS = (TPL_DEFAULTS[p?.type]||[]).map(t=>({...t, created_at: new Date().toISOString()}));
+      saveTpls();
+    }
+  }
+
+  function saveTpls(){ localStorage.setItem(getTplKey(), JSON.stringify(TPLS)); }
+
   window.openTemplates = ()=>{
+    S_editTplId = null;
+    loadTplsForProfile();
+    resetTplForm();
     renderTplList();
+    const p = getActiveProfile();
+    document.getElementById('tplModalTitle').textContent =
+      'Plantillas — ' + (p ? (p.name + ' · ' + p.type.toUpperCase()) : 'Global');
+    document.getElementById('tplModal').classList.add('open');
+  };
+  window.closeTplModal = ()=>{ document.getElementById('tplModal').classList.remove('open'); S_editTplId=null; };
+
+  function resetTplForm(){
     document.getElementById('tplName').value='';
     document.getElementById('tplCaption').value='';
     document.getElementById('tplHashtags').value='';
     document.getElementById('tplPlat').value='all';
-    document.getElementById('tplModal').classList.add('open');
-  };
-  window.closeTplModal = ()=>document.getElementById('tplModal').classList.remove('open');
+    document.getElementById('tplAiTopic').value='';
+    document.getElementById('tplAiLoading').classList.remove('show');
+    document.getElementById('tplFormSec').textContent='Nueva plantilla manual';
+    document.getElementById('btnSaveTpl').textContent='+ Guardar';
+    document.getElementById('btnCancelEdit').style.display='none';
+    document.getElementById('btnSaveTpl').style.gridColumn='1 / -1';
+    S_editTplId=null;
+  }
 
   window.saveTpl = ()=>{
-    const name = document.getElementById('tplName').value.trim();
+    const name    = document.getElementById('tplName').value.trim();
     const caption = document.getElementById('tplCaption').value.trim();
-    if(!name) return toast('⚠️ Ponle un nombre a la plantilla');
+    if(!name)    return toast('⚠️ Ponle un nombre a la plantilla');
     if(!caption) return toast('⚠️ El caption no puede estar vacío');
-    TPLS.push({
-      id: Date.now(),
-      name,
-      platform: document.getElementById('tplPlat').value,
-      caption,
-      hashtags: document.getElementById('tplHashtags').value.trim(),
-      created_at: new Date().toISOString(),
-    });
-    saveTpls();
-    document.getElementById('tplName').value='';
-    document.getElementById('tplCaption').value='';
-    document.getElementById('tplHashtags').value='';
-    renderTplList();
-    toast('✅ Plantilla guardada');
+
+    if(S_editTplId){
+      const idx = TPLS.findIndex(t=>t.id===S_editTplId);
+      if(idx>-1){
+        TPLS[idx] = { ...TPLS[idx], name, platform: document.getElementById('tplPlat').value, caption, hashtags: document.getElementById('tplHashtags').value.trim() };
+        toast('✅ Plantilla actualizada');
+      }
+      resetTplForm();
+    } else {
+      TPLS.push({ id: Date.now(), name, platform: document.getElementById('tplPlat').value, caption, hashtags: document.getElementById('tplHashtags').value.trim(), created_at: new Date().toISOString() });
+      toast('✅ Plantilla guardada');
+    }
+    saveTpls(); renderTplList();
   };
+
+  window.editTpl = id=>{
+    const t = TPLS.find(x=>x.id===id); if(!t) return;
+    S_editTplId = id;
+    document.getElementById('tplName').value    = t.name;
+    document.getElementById('tplCaption').value = t.caption;
+    document.getElementById('tplHashtags').value= t.hashtags||'';
+    document.getElementById('tplPlat').value    = t.platform;
+    document.getElementById('tplFormSec').textContent = '✏ Editando plantilla';
+    document.getElementById('btnSaveTpl').textContent = '💾 Actualizar';
+    document.getElementById('btnSaveTpl').style.gridColumn = 'auto';
+    document.getElementById('btnCancelEdit').style.display = 'flex';
+    // Scroll to form
+    document.getElementById('tplFormSec').scrollIntoView({behavior:'smooth', block:'start'});
+  };
+
+  window.cancelEditTpl = ()=>{ resetTplForm(); renderTplList(); };
 
   function renderTplList(){
     const el = document.getElementById('tplList');
     if(!TPLS.length){
-      el.innerHTML='<div class="tpl-empty">No tienes plantillas todavía.<br>Crea la primera arriba ↑</div>';
+      el.innerHTML='<div class="tpl-empty">Sin plantillas todavía.<br>Genera una con IA arriba ↑</div>';
       return;
     }
     el.innerHTML = TPLS.map(t=>`
-      <div class="tpl-card ${t.platform}">
+      <div class="tpl-card ${t.platform}${S_editTplId===t.id?' editing':''}">
         <div class="tpl-plat">${t.platform==='all'?'TODAS LAS PLATAFORMAS':t.platform.toUpperCase()}</div>
         <div class="tpl-name">${esc(t.name)}</div>
         <div class="tpl-preview">${esc(t.caption)}</div>
         ${t.hashtags?`<div style="font-family:'Space Mono',monospace;font-size:8px;color:var(--purple);margin-bottom:8px;">${esc(t.hashtags)}</div>`:''}
         <div class="tpl-actions">
           <button class="tpl-btn use" onclick="applyTemplate(${t.id})">✓ Usar</button>
-          <button class="tpl-btn del" onclick="deleteTpl(${t.id})">✕ Borrar</button>
+          <button class="tpl-btn" style="border-color:rgba(0,229,255,.3);color:var(--blue);" onclick="editTpl(${t.id})">✏ Editar</button>
+          <button class="tpl-btn del" onclick="deleteTpl(${t.id})">✕</button>
         </div>
       </div>`).join('');
   }
 
   window.deleteTpl = id=>{
+    if(S_editTplId===id) resetTplForm();
     TPLS = TPLS.filter(t=>t.id!==id);
     saveTpls(); renderTplList();
     toast('🗑 Plantilla eliminada');
@@ -1743,8 +1839,9 @@ Responde ÚNICAMENTE con un JSON válido, sin markdown:
 
   window.applyTemplate = (id, fromPicker=false)=>{
     const t = TPLS.find(x=>x.id===id); if(!t) return;
-    const artist = CFG.artist||'JEFFMKEYZ';
-    const genre  = CFG.genres||'Trap Latino';
+    const p = getActiveProfile();
+    const artist = p?.name||'JEFFMKEYZ';
+    const genre  = p?.niche||'Trap Latino';
     const today  = fmtDate(new Date());
     let caption  = t.caption
       .replace(/{artista}/gi, artist)
@@ -1759,6 +1856,7 @@ Responde ÚNICAMENTE con un JSON válido, sin markdown:
   };
 
   window.openTemplatePicker = ()=>{
+    loadTplsForProfile();
     const platform = S.selectedPlatform;
     const filtered = TPLS.filter(t=>t.platform==='all'||t.platform===platform);
     const el = document.getElementById('tplPickerList');
@@ -1776,6 +1874,59 @@ Responde ÚNICAMENTE con un JSON válido, sin markdown:
   };
   window.closePicker = ()=>document.getElementById('tplPicker').classList.remove('open');
 
+  /* AI TEMPLATE GENERATION */
+  window.generateTemplate = async ()=>{
+    const topic = document.getElementById('tplAiTopic').value.trim();
+    if(!topic) return toast('⚠️ Describe el tipo de contenido');
+    if(!CFG.apiKey) return toast('⚠️ Configura tu API key en ⚙ CONFIG');
+
+    const btn = document.getElementById('btnGenTpl');
+    const loading = document.getElementById('tplAiLoading');
+    btn.disabled=true; loading.classList.add('show');
+
+    const p = getActiveProfile();
+    const platform = document.getElementById('tplAiPlat').value;
+    const ctx = PROFILE_AI_CONTEXT[p?.type]?.(p)||`${p?.name}. Nicho: ${p?.niche}.`;
+    const platName = platform==='all'?'cualquier plataforma':platform.toUpperCase();
+
+    const prompt = `Eres experto en marketing de contenido para redes sociales.
+
+Contexto: ${ctx}
+
+Crea una PLANTILLA REUTILIZABLE de caption para: "${topic}"
+Plataforma: ${platName}
+
+La plantilla debe usar estas variables donde corresponda:
+- {tema} — el tema específico del post
+- {artista} — nombre del artista/creador
+- {genero} — género musical o nicho
+- {fecha} — fecha del post
+
+La plantilla es una ESTRUCTURA base, no un post completo. Debe ser versátil para usarse múltiples veces con diferentes {tema}.
+
+Responde ÚNICAMENTE con JSON válido, sin markdown:
+{
+  "name": "nombre descriptivo corto de la plantilla",
+  "caption": "la plantilla con variables {tema} etc incluidas",
+  "hashtags": "hashtags base relevantes"
+}`;
+
+    try{
+      const raw = await callGemini(prompt);
+      const parsed = JSON.parse(raw);
+      if(parsed.name)    document.getElementById('tplName').value    = parsed.name;
+      if(parsed.caption) document.getElementById('tplCaption').value = parsed.caption;
+      if(parsed.hashtags)document.getElementById('tplHashtags').value= parsed.hashtags;
+      document.getElementById('tplPlat').value = platform;
+      document.getElementById('tplFormSec').textContent = '✨ Plantilla generada — revisa y guarda';
+      toast('✨ Plantilla lista — revisa y guarda');
+    } catch(err){
+      toast('❌ Error al generar'); console.error(err);
+    } finally{
+      btn.disabled=false; loading.classList.remove('show');
+    }
+  };
+
   /* ── BACKDROP CLOSE ── */
   ['modal','configModal','helpModal','tplModal','tplPicker','statsModal','tagBankModal','tagPickerModal','profileModal'].forEach(id=>{
     document.getElementById(id).addEventListener('click',e=>{
@@ -1786,7 +1937,7 @@ Responde ÚNICAMENTE con un JSON válido, sin markdown:
     if(e.target.id==='detailModal') closeDetail();
   });
 
-  load(); loadProfiles(); renderProfileBar(); render(); attachDraftListeners();
+  load(); loadProfiles(); loadTplsForProfile(); renderProfileBar(); render(); attachDraftListeners();
 })();
 </script>
 </body>
