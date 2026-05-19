@@ -143,7 +143,7 @@ textarea{resize:vertical;min-height:70px;line-height:1.6;}
 .btn-mint{background:var(--mint);color:#000;}
 .btn-danger{background:rgba(255,45,120,.1);border:1px solid rgba(255,45,120,.2);color:var(--pink);}
 .btn-ghost{background:transparent;border:1px solid var(--border);color:var(--muted);}
-.btn-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px;}
+.btn-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(80px,1fr));gap:8px;margin-top:4px;}
 
 /* SEC */
 .sec{font-family:'Space Mono',monospace;font-size:8px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--mint);margin-bottom:8px;display:flex;align-items:center;gap:6px;}
@@ -261,6 +261,23 @@ textarea{resize:vertical;min-height:70px;line-height:1.6;}
 .tag-picker-card:active{border-color:var(--purple);transform:scale(.98);}
 .tag-picker-card .tag-preview{-webkit-line-clamp:3;margin-bottom:4px;}
 
+
+/* TONE SELECTOR */
+.tone-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:8px;}
+.tone-btn{font-family:'Space Mono',monospace;font-size:8px;font-weight:700;padding:7px 4px;border-radius:var(--r-sm);border:1px solid var(--border);background:rgba(0,0,0,.3);color:var(--muted);cursor:pointer;text-align:center;transition:all .2s;-webkit-tap-highlight-color:transparent;line-height:1.4;}
+.tone-btn.active{border-color:var(--purple);background:rgba(124,58,255,.1);color:#fff;}
+.tone-btn:active{transform:scale(.95);}
+
+/* VERSION CARDS */
+.version-card{background:rgba(0,0,0,.4);border:1px solid var(--border);border-radius:var(--r-sm);padding:10px;margin-bottom:8px;transition:border-color .2s;}
+.version-card:last-child{margin-bottom:0;}
+.version-label{font-family:'Space Mono',monospace;font-size:7px;font-weight:700;letter-spacing:.1em;color:var(--purple);text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;justify-content:space-between;}
+.version-title{font-family:'Space Mono',monospace;font-size:10px;font-weight:700;color:#fff;margin-bottom:4px;}
+.version-caption{font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);line-height:1.6;margin-bottom:6px;white-space:pre-wrap;}
+.version-hashtags{font-family:'Space Mono',monospace;font-size:8px;color:var(--purple);margin-bottom:8px;}
+.btn-use-version{font-family:'Space Mono',monospace;font-size:8px;font-weight:700;padding:5px 12px;border-radius:6px;border:1px solid rgba(0,245,160,.3);background:rgba(0,245,160,.06);color:var(--mint);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:all .15s;}
+.btn-use-version:active{transform:scale(.95);}
+
 </style>
 </head>
 <body>
@@ -305,14 +322,21 @@ textarea{resize:vertical;min-height:70px;line-height:1.6;}
 
     <!-- AI GENERATOR -->
     <div class="ai-box">
-      <div class="ai-box-title" style="justify-content:space-between;">✨ Generar con IA <button onclick="openTemplatePicker()" style="font-family:'Space Mono',monospace;font-size:7px;font-weight:700;padding:3px 8px;border-radius:6px;border:1px solid rgba(255,184,48,.3);background:rgba(255,184,48,.06);color:var(--gold);cursor:pointer;-webkit-tap-highlight-color:transparent;">☰ USAR PLANTILLA</button></div>
+      <div class="ai-box-title" style="justify-content:space-between;">✨ Generar con IA <button onclick="openTemplatePicker()" style="font-family:'Space Mono',monospace;font-size:7px;font-weight:700;padding:3px 8px;border-radius:6px;border:1px solid rgba(255,184,48,.3);background:rgba(255,184,48,.06);color:var(--gold);cursor:pointer;-webkit-tap-highlight-color:transparent;">☰ PLANTILLA</button></div>
       <input class="ai-topic" type="text" id="aiTopic" placeholder="Ej: beat trap oscuro con piano, nuevo sencillo bachata..."/>
-      <button class="btn-ai" onclick="generateWithAI()" id="btnAI">✨ Generar título, caption y hashtags</button>
+      <div class="tone-grid">
+        <div class="tone-btn active" data-tone="street" onclick="selectTone(this)">🔥 Street</div>
+        <div class="tone-btn" data-tone="lirico" onclick="selectTone(this)">🎭 Lírico</div>
+        <div class="tone-btn" data-tone="negocio" onclick="selectTone(this)">💼 Negocio</div>
+        <div class="tone-btn" data-tone="misterioso" onclick="selectTone(this)">🌊 Misterioso</div>
+      </div>
+      <button class="btn-ai" onclick="generateWithAI()" id="btnAI">✨ Generar 3 versiones</button>
       <div class="ai-loading" id="aiLoading">
         <div class="dot-pulse"></div><div class="dot-pulse"></div><div class="dot-pulse"></div>
-        <span>Generando para la plataforma...</span>
+        <span>Generando 3 versiones...</span>
       </div>
       <div class="ai-no-key" id="aiNoKey">⚠ Configura tu API key de Gemini primero — botón ⚙ CONFIG arriba</div>
+      <div id="versionsPanel" style="display:none;margin-top:10px;"></div>
     </div>
 
     <div class="sec">Plataforma</div>
@@ -362,6 +386,7 @@ textarea{resize:vertical;min-height:70px;line-height:1.6;}
     <div id="detailContent"></div>
     <div id="metricsSection" style="display:none;margin-bottom:12px;"></div>
     <div class="btn-row">
+      <button class="btn btn-ghost" onclick="copyPost()" style="border-color:rgba(0,229,255,.3);color:var(--blue);">📋 Copiar</button>
       <button class="btn btn-ghost" onclick="closeDetail()">Cerrar</button>
       <button class="btn btn-mint" onclick="editFromDetail()">✏ Editar</button>
     </div>
@@ -715,73 +740,103 @@ textarea{resize:vertical;min-height:70px;line-height:1.6;}
     facebook:  'Facebook: tono más conversacional y comunidad, puede ser más largo y personal, pregunta al final para generar interacción. Hashtags: pocos, 3-5 máximo.',
   };
 
+  const TONE_INSTRUCTIONS = {
+    street:     'Estilo STREET: directo, crudo, auténtico, sin poses. Lenguaje de la calle, confianza total, frases cortas e impactantes. Puede incluir slang urbano latino.',
+    lirico:     'Estilo LÍRICO: poético, con imágenes y metáforas. Evoca sensaciones y emociones. Más artístico, puede ser más largo y reflexivo.',
+    negocio:    'Estilo NEGOCIO: orientado a conversión y acción. CTA claro, propuesta de valor directa, lenguaje profesional pero cercano. Foco en resultado para el oyente.',
+    misterioso: 'Estilo MISTERIOSO: intriga, no revela todo, genera curiosidad. Preguntas sin respuesta, frases que dejan con ganas de más. Oscuro y atractivo.',
+  };
+
+  let S_tone = 'street';
+
+  window.selectTone = el=>{
+    document.querySelectorAll('.tone-btn').forEach(b=>b.classList.remove('active'));
+    el.classList.add('active');
+    S_tone = el.dataset.tone;
+  };
+
+  async function callGemini(prompt){
+    const res = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${CFG.apiKey}`,
+      { method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({contents:[{parts:[{text:prompt}]}]}) }
+    );
+    const data = await res.json();
+    if(data.error) throw new Error(data.error.message);
+    const raw = data?.candidates?.[0]?.content?.parts?.[0]?.text||'';
+    return raw.replace(/```json|```/gi,'').trim();
+  }
+
   window.generateWithAI = async ()=>{
     const topic = document.getElementById('aiTopic').value.trim();
     const noKey = document.getElementById('aiNoKey');
     const loading = document.getElementById('aiLoading');
     const btn = document.getElementById('btnAI');
+    const panel = document.getElementById('versionsPanel');
 
     noKey.classList.remove('show');
+    panel.style.display='none';
 
-    if(!CFG.apiKey){
-      noKey.classList.add('show');
-      return;
-    }
+    if(!CFG.apiKey){ noKey.classList.add('show'); return; }
     if(!topic) return toast('⚠️ Escribe el tema del post primero');
 
     btn.disabled=true;
     loading.classList.add('show');
 
-    const platInstr = PLATFORM_INSTRUCTIONS[S.selectedPlatform] || PLATFORM_INSTRUCTIONS.tiktok;
-    const artistCtx = CFG.artist
-      ? `Artista: ${CFG.artist}. Géneros: ${CFG.genres||'Trap Latino, Dembow'}. Tono: ${CFG.tone||'auténtico, street'}.`
+    const platInstr  = PLATFORM_INSTRUCTIONS[S.selectedPlatform]||PLATFORM_INSTRUCTIONS.tiktok;
+    const toneInstr  = TONE_INSTRUCTIONS[S_tone]||TONE_INSTRUCTIONS.street;
+    const artistCtx  = CFG.artist
+      ? `Artista: ${CFG.artist}. Géneros: ${CFG.genres||'Trap Latino, Dembow'}. Tono base: ${CFG.tone||'auténtico, street'}.`
       : 'Artista independiente de música urbana latina.';
+    const lang = CFG.lang==='en'?'English':CFG.lang==='both'?'Español con frases en English estratégicamente':'Español';
 
     const prompt = `Eres un experto en marketing musical para artistas independientes latinos.
 
 ${artistCtx}
 
-Crea contenido para esta publicación:
-Tema/contexto: "${topic}"
+Genera 3 versiones DISTINTAS de contenido para esta publicación:
+Tema: "${topic}"
 Plataforma: ${S.selectedPlatform.toUpperCase()}
-
+Tono de las 3 versiones: ${toneInstr}
 Instrucciones de plataforma: ${platInstr}
+Idioma: ${lang}
 
-Idioma: ${CFG.lang==='en'?'English':CFG.lang==='both'?'Español con frases en English estratégicamente':'Español'}
+Las 3 versiones deben tener el MISMO tono pero ángulos y estructuras diferentes entre sí.
+Versión 1: enfoque en la emoción/vibra
+Versión 2: enfoque en el artista/proceso
+Versión 3: enfoque en el oyente/beneficio
 
-Responde ÚNICAMENTE con un JSON válido, sin markdown, sin explicaciones:
+Responde ÚNICAMENTE con un JSON válido, sin markdown:
 {
-  "title": "título o gancho principal (para YouTube: optimizado SEO; para otras: el hook)",
-  "caption": "caption completo listo para publicar",
-  "hashtags": "hashtags separados por espacios"
+  "versions": [
+    { "label": "V1 · Emoción", "title": "...", "caption": "...", "hashtags": "..." },
+    { "label": "V2 · Artista", "title": "...", "caption": "...", "hashtags": "..." },
+    { "label": "V3 · Oyente", "title": "...", "caption": "...", "hashtags": "..." }
+  ]
 }`;
 
     try{
-      const res = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${CFG.apiKey}`,
-        {
-          method:'POST',
-          headers:{'Content-Type':'application/json'},
-          body: JSON.stringify({contents:[{parts:[{text:prompt}]}]})
-        }
-      );
-      const data = await res.json();
-
-      if(data.error){
-        toast('❌ Error API: '+data.error.message);
-        return;
-      }
-
-      const raw = data?.candidates?.[0]?.content?.parts?.[0]?.text||'';
-      // Strip markdown code blocks if present
-      const clean = raw.replace(/```json|```/gi,'').trim();
+      const clean = await callGemini(prompt);
       const parsed = JSON.parse(clean);
+      const versions = parsed.versions||[];
 
-      if(parsed.title)    document.getElementById('fTitle').value    = parsed.title;
-      if(parsed.caption)  document.getElementById('fCaption').value  = parsed.caption;
-      if(parsed.hashtags) document.getElementById('fHashtags').value = parsed.hashtags;
+      if(!versions.length) throw new Error('Sin versiones');
 
-      toast('✨ Contenido generado');
+      panel.style.display='block';
+      panel.innerHTML = versions.map((v,i)=>`
+        <div class="version-card">
+          <div class="version-label">
+            <span>${esc(v.label||'Versión '+(i+1))}</span>
+            <button class="btn-use-version" onclick="useVersion(${i})">✓ Usar esta</button>
+          </div>
+          ${v.title?`<div class="version-title">${esc(v.title)}</div>`:''}
+          <div class="version-caption">${esc(v.caption||'')}</div>
+          ${v.hashtags?`<div class="version-hashtags">${esc(v.hashtags)}</div>`:''}
+        </div>`).join('');
+
+      // Store versions for useVersion()
+      panel.dataset.versions = JSON.stringify(versions);
+      toast('✨ 3 versiones listas — elige la mejor');
     } catch(err){
       toast('❌ Error al generar — revisa la API key');
       console.error(err);
@@ -789,6 +844,17 @@ Responde ÚNICAMENTE con un JSON válido, sin markdown, sin explicaciones:
       btn.disabled=false;
       loading.classList.remove('show');
     }
+  };
+
+  window.useVersion = idx=>{
+    const panel = document.getElementById('versionsPanel');
+    const versions = JSON.parse(panel.dataset.versions||'[]');
+    const v = versions[idx]; if(!v) return;
+    if(v.title)    document.getElementById('fTitle').value    = v.title;
+    if(v.caption)  document.getElementById('fCaption').value  = v.caption;
+    if(v.hashtags) document.getElementById('fHashtags').value = v.hashtags;
+    panel.style.display='none';
+    toast('✅ Versión '+(idx+1)+' aplicada');
   };
 
   /* ── MODAL POST ── */
@@ -810,6 +876,7 @@ Responde ÚNICAMENTE con un JSON válido, sin markdown, sin explicaciones:
     document.getElementById('fTime').value='19:00';
     document.getElementById('aiNoKey').classList.remove('show');
     document.getElementById('aiLoading').classList.remove('show');
+    const vp=document.getElementById('versionsPanel'); if(vp){ vp.style.display='none'; vp.dataset.versions='[]'; }
     S.selectedPlatform='tiktok';
     document.querySelectorAll('.plat-btn').forEach(b=>b.classList.remove('active'));
     document.querySelector('.plat-btn.tiktok').classList.add('active');
@@ -895,6 +962,14 @@ Responde ÚNICAMENTE con un JSON válido, sin markdown, sin explicaciones:
     document.getElementById('detailModal').classList.add('open');
   };
   window.closeDetail=()=>document.getElementById('detailModal').classList.remove('open');
+
+  window.copyPost=()=>{
+    const p=S.posts.find(x=>x.id===S.detailId); if(!p) return;
+    const text=[p.caption,p.hashtags].filter(Boolean).join('\n\n');
+    navigator.clipboard.writeText(text)
+      .then(()=>toast('📋 Caption copiado al portapapeles'))
+      .catch(()=>toast('❌ Error al copiar'));
+  };
   window.editFromDetail=()=>{
     const p=S.posts.find(x=>x.id===S.detailId); if(!p) return;
     closeDetail();
