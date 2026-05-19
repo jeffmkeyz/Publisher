@@ -291,6 +291,47 @@ textarea{resize:vertical;min-height:70px;line-height:1.6;}
 }
 .fab:active{transform:scale(.9);}
 
+
+/* PROFILE SWITCHER */
+.profile-bar{display:flex;align-items:center;gap:8px;margin-bottom:10px;overflow-x:auto;scrollbar-width:none;}
+.profile-bar::-webkit-scrollbar{display:none;}
+.profile-chip{
+  flex-shrink:0;display:flex;align-items:center;gap:6px;
+  font-family:'Space Mono',monospace;font-size:9px;font-weight:700;
+  padding:6px 12px;border-radius:20px;border:1px solid var(--border);
+  background:rgba(0,0,0,.3);color:var(--muted);cursor:pointer;
+  transition:all .2s;-webkit-tap-highlight-color:transparent;
+}
+.profile-chip.active.artista{border-color:var(--mint);background:rgba(0,245,160,.08);color:var(--mint);}
+.profile-chip.active.productor{border-color:var(--gold);background:rgba(255,184,48,.08);color:var(--gold);}
+.profile-chip.active.influencer{border-color:var(--purple);background:rgba(124,58,255,.08);color:var(--purple);}
+.profile-chip:active{transform:scale(.95);}
+.profile-dot{width:6px;height:6px;border-radius:50%;}
+.artista .profile-dot{background:var(--mint);}
+.productor .profile-dot{background:var(--gold);}
+.influencer .profile-dot{background:var(--purple);}
+.profile-manage{flex-shrink:0;font-family:'Space Mono',monospace;font-size:8px;padding:6px 10px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--dim);cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.profile-manage:active{color:var(--mint);border-color:var(--mint);}
+
+/* PROFILE MODAL */
+.prf-card{background:rgba(0,0,0,.3);border:1px solid var(--border);border-radius:var(--r-md);padding:14px;margin-bottom:8px;position:relative;}
+.prf-card.artista{border-left:3px solid var(--mint);}
+.prf-card.productor{border-left:3px solid var(--gold);}
+.prf-card.influencer{border-left:3px solid var(--purple);}
+.prf-type{font-family:'Space Mono',monospace;font-size:7px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:4px;}
+.prf-card.artista .prf-type{color:var(--mint);}
+.prf-card.productor .prf-type{color:var(--gold);}
+.prf-card.influencer .prf-type{color:var(--purple);}
+.prf-name{font-size:14px;font-weight:800;color:#fff;margin-bottom:4px;}
+.prf-niche{font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);line-height:1.5;margin-bottom:8px;}
+.prf-active-badge{display:inline-block;font-family:'Space Mono',monospace;font-size:7px;font-weight:700;padding:2px 8px;border-radius:10px;background:rgba(0,245,160,.1);border:1px solid rgba(0,245,160,.2);color:var(--mint);margin-bottom:8px;}
+.type-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:12px;}
+.type-btn{padding:10px 6px;border-radius:var(--r-sm);border:1px solid var(--border);background:rgba(0,0,0,.3);cursor:pointer;text-align:center;font-family:'Space Mono',monospace;font-size:8px;font-weight:700;color:var(--muted);transition:all .2s;-webkit-tap-highlight-color:transparent;}
+.type-btn .type-icon{font-size:18px;display:block;margin-bottom:4px;}
+.type-btn.active.artista{border-color:var(--mint);background:rgba(0,245,160,.08);color:var(--mint);}
+.type-btn.active.productor{border-color:var(--gold);background:rgba(255,184,48,.08);color:var(--gold);}
+.type-btn.active.influencer{border-color:var(--purple);background:rgba(124,58,255,.08);color:var(--purple);}
+
 </style>
 </head>
 <body>
@@ -299,13 +340,16 @@ textarea{resize:vertical;min-height:70px;line-height:1.6;}
 
 <!-- HEADER -->
 <div id="hdr">
-  <!-- TOP ROW: brand center + add button -->
+  <!-- TOP ROW -->
   <div class="hdr-top">
     <div style="flex:1;text-align:center;">
       <div class="brand">MKEYZ</div>
       <div class="version">PUBLISHER · CONTENT SCHEDULER</div>
     </div>
   </div>
+
+  <!-- PROFILE BAR -->
+  <div class="profile-bar" id="profileBar"></div>
 
   <!-- TABS ROW: scrollable -->
   <div class="hdr-tabs">
@@ -333,7 +377,10 @@ textarea{resize:vertical;min-height:70px;line-height:1.6;}
   <div class="modal-box">
     <div class="modal-handle"></div>
     <div class="modal-title">
-      <span id="modalTitle">Nuevo Post</span>
+      <div style="display:flex;flex-direction:column;gap:2px;">
+        <span id="modalTitle">Nuevo Post</span>
+        <span id="draftIndicator" style="font-family:'Space Mono',monospace;font-size:7px;color:var(--dim);display:none;">● borrador guardado</span>
+      </div>
       <button class="modal-close" onclick="closeModal()">×</button>
     </div>
 
@@ -717,6 +764,47 @@ textarea{resize:vertical;min-height:70px;line-height:1.6;}
 
 <button class="fab" onclick="openModal()">+</button>
 
+
+<!-- PROFILE MODAL -->
+<div id="profileModal" class="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-handle"></div>
+    <div class="modal-title">
+      <span>Perfiles</span>
+      <button class="modal-close" onclick="closeProfileModal()">×</button>
+    </div>
+
+    <div class="sec">Nuevo perfil</div>
+    <div class="type-grid">
+      <div class="type-btn artista active" data-type="artista" onclick="selectProfileType(this)">
+        <span class="type-icon">🎤</span>ARTISTA
+      </div>
+      <div class="type-btn productor" data-type="productor" onclick="selectProfileType(this)">
+        <span class="type-icon">🎛</span>PRODUCTOR
+      </div>
+      <div class="type-btn influencer" data-type="influencer" onclick="selectProfileType(this)">
+        <span class="type-icon">📱</span>INFLUENCER
+      </div>
+    </div>
+    <label class="lbl">Nombre / Marca</label>
+    <input type="text" id="prfName" placeholder="Jeff Mkeyz"/>
+    <label class="lbl">Géneros / Nicho</label>
+    <input type="text" id="prfNiche" placeholder="Afro, Groove, Dancehall, Bachata..."/>
+    <label class="lbl">Tono de comunicación</label>
+    <input type="text" id="prfTone" placeholder="Auténtico, street, directo..."/>
+    <label class="lbl">Idioma</label>
+    <select id="prfLang">
+      <option value="es">Español</option>
+      <option value="en">English</option>
+      <option value="both">Español + English</option>
+    </select>
+    <button class="btn btn-mint" onclick="saveProfile()" style="margin-bottom:16px;">+ Crear perfil</button>
+
+    <div class="sec">Mis perfiles</div>
+    <div id="profileList"></div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
@@ -736,9 +824,9 @@ textarea{resize:vertical;min-height:70px;line-height:1.6;}
   let TPLS = [];
 
   /* ── STORAGE ── */
-  function save(){ localStorage.setItem(KEY, JSON.stringify(S.posts)); }
+  function save(){ savePostsForProfile(); }
   function load(){
-    try{ S.posts = JSON.parse(localStorage.getItem(KEY)||'[]'); }catch(e){ S.posts=[]; }
+    // posts loaded per-profile in loadProfiles()
     try{ Object.assign(CFG, JSON.parse(localStorage.getItem(CFG_KEY)||'{}')); }catch(e){}
     try{ TPLS = JSON.parse(localStorage.getItem(TPL_KEY)||'[]'); }catch(e){ TPLS=[]; }
   }
@@ -873,9 +961,10 @@ textarea{resize:vertical;min-height:70px;line-height:1.6;}
 
     const platInstr  = PLATFORM_INSTRUCTIONS[S.selectedPlatform]||PLATFORM_INSTRUCTIONS.tiktok;
     const toneInstr  = TONE_INSTRUCTIONS[S_tone]||TONE_INSTRUCTIONS.street;
-    const artistCtx  = CFG.artist
-      ? `Artista: ${CFG.artist}. Géneros: ${CFG.genres||'Trap Latino, Dembow'}. Tono base: ${CFG.tone||'auténtico, street'}.`
-      : 'Artista independiente de música urbana latina.';
+    const activeP = getActiveProfile();
+    const artistCtx = PROFILE_AI_CONTEXT[activeP.type]
+      ? PROFILE_AI_CONTEXT[activeP.type](activeP)
+      : `${activeP.name}. Nicho: ${activeP.niche}. Tono: ${activeP.tone}.`;
     const lang = CFG.lang==='en'?'English':CFG.lang==='both'?'Español con frases en English estratégicamente':'Español';
 
     const prompt = `Eres un experto en marketing musical para artistas independientes latinos.
@@ -946,15 +1035,79 @@ Responde ÚNICAMENTE con un JSON válido, sin markdown:
   };
 
   /* ── MODAL POST ── */
+  const DRAFT_KEY = 'mkeyz_form_draft';
+
+  function saveDraft(){
+    if(S.editingId) return; // don't overwrite drafts when editing existing post
+    const draft = {
+      platform: S.selectedPlatform,
+      status:   S.selectedStatus,
+      date:     document.getElementById('fDate').value,
+      time:     document.getElementById('fTime').value,
+      title:    document.getElementById('fTitle').value,
+      caption:  document.getElementById('fCaption').value,
+      hashtags: document.getElementById('fHashtags').value,
+      path:     document.getElementById('fPath').value,
+      notes:    document.getElementById('fNotes').value,
+      topic:    document.getElementById('aiTopic').value,
+    };
+    localStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
+    const ind = document.getElementById('draftIndicator');
+    if(ind){ ind.style.display='block'; ind.style.color='var(--mint)'; ind.textContent='● borrador guardado'; }
+  }
+
+  function clearDraft(){ localStorage.removeItem(DRAFT_KEY); }
+
+  function restoreDraft(){
+    try{
+      const d = JSON.parse(localStorage.getItem(DRAFT_KEY)||'null');
+      if(!d) return false;
+      if(d.date)     document.getElementById('fDate').value    = d.date;
+      if(d.time)     document.getElementById('fTime').value    = d.time;
+      if(d.title)    document.getElementById('fTitle').value   = d.title;
+      if(d.caption)  document.getElementById('fCaption').value = d.caption;
+      if(d.hashtags) document.getElementById('fHashtags').value= d.hashtags;
+      if(d.path)     document.getElementById('fPath').value    = d.path;
+      if(d.notes)    document.getElementById('fNotes').value   = d.notes;
+      if(d.topic)    document.getElementById('aiTopic').value  = d.topic;
+      if(d.platform){
+        S.selectedPlatform = d.platform;
+        document.querySelectorAll('.plat-btn').forEach(b=>b.classList.remove('active'));
+        document.querySelector(`.plat-btn.${d.platform}`)?.classList.add('active');
+      }
+      if(d.status){
+        S.selectedStatus = d.status;
+        document.querySelectorAll('.st-btn').forEach(b=>b.classList.remove('active'));
+        document.querySelector(`.st-btn.${d.status}`)?.classList.add('active');
+      }
+      const ind = document.getElementById('draftIndicator');
+      if(ind){ ind.style.display='block'; ind.style.color='var(--gold)'; ind.textContent='↩ borrador restaurado'; }
+      return true;
+    } catch(e){ return false; }
+  }
+
+  function attachDraftListeners(){
+    const fields = ['fDate','fTime','fTitle','fCaption','fHashtags','fPath','fNotes','aiTopic'];
+    fields.forEach(id=>{
+      const el = document.getElementById(id);
+      if(el) el.addEventListener('input', saveDraft);
+    });
+  }
+
   window.openModal=()=>{
     S.editingId=null; resetForm();
     document.getElementById('modalTitle').textContent='Nuevo Post';
     document.getElementById('btnDelete').style.display='none';
     document.getElementById('btnSave').style.gridColumn='1 / -1';
-    document.getElementById('fDate').value=fmtDate(new Date());
+    // Restore draft if exists, otherwise set today
+    const restored = restoreDraft();
+    if(!restored) document.getElementById('fDate').value=fmtDate(new Date());
     document.getElementById('modal').classList.add('open');
   };
-  window.openModalForDay=dateStr=>{ openModal(); document.getElementById('fDate').value=dateStr; };
+  window.openModalForDay=dateStr=>{
+    openModal();
+    if(!localStorage.getItem(DRAFT_KEY)) document.getElementById('fDate').value=dateStr;
+  };
   window.closeModal=()=>document.getElementById('modal').classList.remove('open');
 
   function resetForm(){
@@ -1003,13 +1156,13 @@ Responde ÚNICAMENTE con un JSON válido, sin markdown:
       if(idx>-1) S.posts[idx]=post;
       toast('✅ Post actualizado');
     } else { S.posts.push(post); toast('✅ Post guardado'); }
-    save(); closeModal(); closeDetail(); render();
+    clearDraft(); save(); closeModal(); closeDetail(); render();
   };
 
   window.deletePost=()=>{
     if(!S.editingId) return;
     S.posts=S.posts.filter(p=>p.id!==S.editingId);
-    save(); closeModal(); closeDetail(); render();
+    clearDraft(); save(); closeModal(); closeDetail(); render();
     toast('🗑 Post eliminado');
   };
 
@@ -1136,6 +1289,171 @@ Responde ÚNICAMENTE con un JSON válido, sin markdown:
 
 
 
+
+
+  /* ── PROFILES ── */
+  const PRF_KEY     = 'mkeyz_profiles_v1';
+  const PRF_ACT_KEY = 'mkeyz_active_profile';
+
+  const PROFILE_DEFAULTS = [
+    {
+      id: 'prf_artista',
+      type: 'artista',
+      name: 'Jeff Mkeyz',
+      niche: 'Afro, Groove, Dancehall, Bachata, Dembow, Reggaeton, Pop, Funk',
+      tone: 'Auténtico, melody-focused, street con clase, directo sin poses',
+      lang: 'es',
+    },
+    {
+      id: 'prf_productor',
+      type: 'productor',
+      name: 'Jeff Mkeyz',
+      niche: 'Beats instrumentales en Afro, Groove, Dancehall, Bachata, Dembow, Reggaeton, Pop, Funk',
+      tone: 'Profesional pero cercano, enfocado en calidad y versatilidad del beat',
+      lang: 'es',
+    },
+    {
+      id: 'prf_influencer',
+      type: 'influencer',
+      name: 'Jeff Mkeyz',
+      niche: 'Alma vieja multidimensional — música, lifestyle, tecnología, emprendimiento, cultura y experiencias de vida',
+      tone: 'Sabio pero fresco, experiencia con actitud, reflexivo y directo',
+      lang: 'es',
+    },
+  ];
+
+  const PROFILE_AI_CONTEXT = {
+    artista: (p) => `Artista musical: ${p.name}. Géneros: ${p.niche}. Tono: ${p.tone}. El contenido conecta emocionalmente con la audiencia y construye fanbase.`,
+    productor: (p) => `Productor musical: ${p.name}. Especialidad: ${p.niche}. Tono: ${p.tone}. El contenido muestra la calidad del trabajo, atrae artistas y genera ventas/licencias de beats.`,
+    influencer: (p) => `Creador de contenido / Influencer: ${p.name}. Nicho: ${p.niche}. Tono: ${p.tone}. El contenido aporta valor, genera conversación y construye comunidad fiel.`,
+  };
+
+  const PROFILE_ICONS = { artista:'🎤', productor:'🎛', influencer:'📱' };
+  const PROFILE_COLORS = { artista:'var(--mint)', productor:'var(--gold)', influencer:'var(--purple)' };
+
+  let PROFILES = [];
+  let ACTIVE_PRF_ID = null;
+
+  function loadProfiles(){
+    try{ PROFILES = JSON.parse(localStorage.getItem(PRF_KEY)||'null'); }catch(e){ PROFILES=null; }
+    if(!PROFILES||!PROFILES.length){
+      PROFILES = PROFILE_DEFAULTS;
+      saveProfiles();
+    }
+    ACTIVE_PRF_ID = localStorage.getItem(PRF_ACT_KEY)||PROFILES[0].id;
+    // Ensure active profile exists
+    if(!PROFILES.find(p=>p.id===ACTIVE_PRF_ID)) ACTIVE_PRF_ID = PROFILES[0].id;
+    syncCFGFromProfile();
+  }
+
+  function saveProfiles(){ localStorage.setItem(PRF_KEY, JSON.stringify(PROFILES)); }
+
+  function getActiveProfile(){ return PROFILES.find(p=>p.id===ACTIVE_PRF_ID)||PROFILES[0]; }
+
+  function syncCFGFromProfile(){
+    const p = getActiveProfile();
+    CFG.artist = p.name;
+    CFG.genres = p.niche;
+    CFG.tone   = p.tone;
+    CFG.lang   = p.lang;
+    // Posts key per profile
+    S.posts = [];
+    const postsKey = 'mkeyz_posts_'+p.id;
+    try{ S.posts = JSON.parse(localStorage.getItem(postsKey)||'[]'); }catch(e){ S.posts=[]; }
+  }
+
+  function savePostsForProfile(){
+    const p = getActiveProfile();
+    localStorage.setItem('mkeyz_posts_'+p.id, JSON.stringify(S.posts));
+  }
+
+  function renderProfileBar(){
+    const bar = document.getElementById('profileBar');
+    bar.innerHTML = PROFILES.map(p=>`
+      <div class="profile-chip ${p.type}${p.id===ACTIVE_PRF_ID?' active':''}" onclick="switchProfile('${p.id}')">
+        <div class="profile-dot"></div>
+        ${PROFILE_ICONS[p.type]} ${esc(p.name)} <span style="font-size:7px;opacity:.6;">${p.type.toUpperCase()}</span>
+      </div>`).join('') +
+      `<button class="profile-manage" onclick="openProfileModal()">+ Gestionar</button>`;
+  }
+
+  window.switchProfile = id=>{
+    // Save current posts first
+    savePostsForProfile();
+    ACTIVE_PRF_ID = id;
+    localStorage.setItem(PRF_ACT_KEY, id);
+    syncCFGFromProfile();
+    renderProfileBar();
+    render();
+    const p = getActiveProfile();
+    toast(`${PROFILE_ICONS[p.type]} ${p.name} · ${p.type}`);
+  };
+
+  let S_prfType = 'artista';
+  window.selectProfileType = el=>{
+    document.querySelectorAll('.type-btn').forEach(b=>b.classList.remove('active'));
+    el.classList.add('active');
+    S_prfType = el.dataset.type;
+  };
+
+  window.openProfileModal = ()=>{
+    renderProfileList();
+    ['prfName','prfNiche','prfTone'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('prfLang').value='es';
+    S_prfType='artista';
+    document.querySelectorAll('.type-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelector('.type-btn.artista').classList.add('active');
+    document.getElementById('profileModal').classList.add('open');
+  };
+  window.closeProfileModal = ()=>document.getElementById('profileModal').classList.remove('open');
+
+  window.saveProfile = ()=>{
+    const name = document.getElementById('prfName').value.trim();
+    if(!name) return toast('⚠️ El perfil necesita un nombre');
+    const prf = {
+      id:    'prf_'+Date.now(),
+      type:  S_prfType,
+      name,
+      niche: document.getElementById('prfNiche').value.trim(),
+      tone:  document.getElementById('prfTone').value.trim(),
+      lang:  document.getElementById('prfLang').value,
+    };
+    PROFILES.push(prf);
+    saveProfiles();
+    renderProfileList();
+    renderProfileBar();
+    toast('✅ Perfil creado');
+  };
+
+  window.deleteProfile = id=>{
+    if(PROFILES.length<=1) return toast('⚠️ Necesitas al menos un perfil');
+    PROFILES = PROFILES.filter(p=>p.id!==id);
+    saveProfiles();
+    if(ACTIVE_PRF_ID===id){
+      ACTIVE_PRF_ID = PROFILES[0].id;
+      localStorage.setItem(PRF_ACT_KEY, ACTIVE_PRF_ID);
+      syncCFGFromProfile();
+      render();
+    }
+    renderProfileList();
+    renderProfileBar();
+    toast('🗑 Perfil eliminado');
+  };
+
+  function renderProfileList(){
+    const el = document.getElementById('profileList');
+    el.innerHTML = PROFILES.map(p=>`
+      <div class="prf-card ${p.type}">
+        <div class="prf-type">${PROFILE_ICONS[p.type]} ${p.type.toUpperCase()}</div>
+        <div class="prf-name">${esc(p.name)}</div>
+        <div class="prf-niche">${esc(p.niche||'Sin nicho definido')}</div>
+        ${p.id===ACTIVE_PRF_ID?'<div class="prf-active-badge">● ACTIVO</div>':''}
+        <div class="tpl-actions">
+          ${p.id!==ACTIVE_PRF_ID?`<button class="tpl-btn use" onclick="switchProfile('${p.id}');closeProfileModal();">▶ Activar</button>`:''}
+          ${!['prf_artista','prf_productor','prf_influencer'].includes(p.id)?`<button class="tpl-btn del" onclick="deleteProfile('${p.id}')">✕ Borrar</button>`:''}
+        </div>
+      </div>`).join('');
+  }
 
   /* ── TAG BANK ── */
   const TAG_KEY = 'mkeyz_tags_v1';
@@ -1459,7 +1777,7 @@ Responde ÚNICAMENTE con un JSON válido, sin markdown:
   window.closePicker = ()=>document.getElementById('tplPicker').classList.remove('open');
 
   /* ── BACKDROP CLOSE ── */
-  ['modal','configModal','helpModal','tplModal','tplPicker','statsModal','tagBankModal','tagPickerModal'].forEach(id=>{
+  ['modal','configModal','helpModal','tplModal','tplPicker','statsModal','tagBankModal','tagPickerModal','profileModal'].forEach(id=>{
     document.getElementById(id).addEventListener('click',e=>{
       if(e.target.id===id) document.getElementById(id).classList.remove('open');
     });
@@ -1468,7 +1786,7 @@ Responde ÚNICAMENTE con un JSON válido, sin markdown:
     if(e.target.id==='detailModal') closeDetail();
   });
 
-  load(); render();
+  load(); loadProfiles(); renderProfileBar(); render(); attachDraftListeners();
 })();
 </script>
 </body>
