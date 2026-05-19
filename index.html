@@ -220,6 +220,47 @@ textarea{resize:vertical;min-height:70px;line-height:1.6;}
 .picker-card{background:rgba(0,0,0,.3);border:1px solid var(--border);border-radius:var(--r-md);padding:12px;margin-bottom:8px;cursor:pointer;transition:all .15s;-webkit-tap-highlight-color:transparent;}
 .picker-card:active{border-color:var(--mint);transform:scale(.98);}
 
+
+/* METRICS */
+.metrics-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;}
+.metric-inp input{margin-bottom:0;font-size:14px;text-align:center;padding:8px;}
+.engagement-rate{font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);margin-bottom:8px;text-align:center;}
+
+/* STATS MODAL */
+.stats-total{font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);margin-bottom:16px;}
+.stat-block{background:rgba(0,0,0,.3);border:1px solid var(--border);border-radius:var(--r-md);padding:14px;margin-bottom:10px;}
+.stat-block-title{font-family:'Space Mono',monospace;font-size:8px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;}
+.stat-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+.stat-row-label{font-family:'Space Mono',monospace;font-size:9px;color:var(--text);display:flex;align-items:center;gap:6px;}
+.stat-row-val{font-family:'Space Mono',monospace;font-size:11px;font-weight:700;color:#fff;}
+.stat-bar-wrap{flex:1;margin:0 10px;height:4px;background:var(--dim);border-radius:2px;overflow:hidden;}
+.stat-bar{height:100%;border-radius:2px;transition:width .4s ease;}
+.top-post{background:rgba(0,0,0,.3);border:1px solid var(--border);border-radius:var(--r-sm);padding:10px;margin-bottom:6px;display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.top-post-info{flex:1;}
+.top-post-plat{font-family:'Space Mono',monospace;font-size:7px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;}
+.top-post-caption{font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);overflow:hidden;white-space:nowrap;text-overflow:ellipsis;max-width:180px;}
+.top-post-views{font-family:'Space Mono',monospace;font-size:14px;font-weight:700;color:var(--mint);white-space:nowrap;}
+.no-stats{text-align:center;padding:24px;font-family:'Space Mono',monospace;font-size:9px;color:var(--dim);line-height:1.8;border:1px dashed var(--dim);border-radius:var(--r-md);}
+.stat-num-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px;}
+.stat-num-card{background:rgba(0,0,0,.3);border:1px solid var(--border);border-radius:var(--r-sm);padding:10px;text-align:center;}
+.stat-num-val{font-family:'Space Mono',monospace;font-size:16px;font-weight:700;color:#fff;display:block;}
+.stat-num-lbl{font-family:'Space Mono',monospace;font-size:7px;color:var(--muted);letter-spacing:.08em;margin-top:2px;display:block;}
+
+
+/* TAG BANK */
+.tag-group-card{background:rgba(0,0,0,.3);border:1px solid var(--border);border-radius:var(--r-md);padding:12px;margin-bottom:8px;}
+.tag-group-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;}
+.tag-group-name{font-family:'Space Mono',monospace;font-size:10px;font-weight:700;color:#fff;}
+.tag-group-meta{display:flex;gap:4px;margin-bottom:8px;}
+.tag-chip{font-family:'Space Mono',monospace;font-size:7px;font-weight:700;padding:2px 7px;border-radius:10px;letter-spacing:.04em;}
+.tag-chip.plat{background:rgba(124,58,255,.1);border:1px solid rgba(124,58,255,.2);color:var(--purple);}
+.tag-chip.genre{background:rgba(255,184,48,.1);border:1px solid rgba(255,184,48,.2);color:var(--gold);}
+.tag-preview{font-family:'Space Mono',monospace;font-size:9px;color:var(--purple);line-height:1.6;margin-bottom:8px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;}
+.tag-count{font-family:'Space Mono',monospace;font-size:8px;color:var(--dim);}
+.tag-picker-card{background:rgba(0,0,0,.3);border:1px solid var(--border);border-radius:var(--r-md);padding:12px;margin-bottom:8px;cursor:pointer;transition:all .15s;-webkit-tap-highlight-color:transparent;}
+.tag-picker-card:active{border-color:var(--purple);transform:scale(.98);}
+.tag-picker-card .tag-preview{-webkit-line-clamp:3;margin-bottom:4px;}
+
 </style>
 </head>
 <body>
@@ -234,6 +275,8 @@ textarea{resize:vertical;min-height:70px;line-height:1.6;}
       <div class="version">PUBLISHER · CONTENT SCHEDULER</div>
     </div>
     <div class="hdr-actions">
+      <button class="hbtn" style="border-color:rgba(124,58,255,.3);background:rgba(124,58,255,.06);color:var(--purple);" onclick="openTagBank()">＃ TAGS</button>
+      <button class="hbtn" style="border-color:rgba(0,229,255,.3);background:rgba(0,229,255,.06);color:var(--blue);" onclick="openStats()">📊 STATS</button>
       <button class="hbtn" style="border-color:rgba(255,184,48,.3);background:rgba(255,184,48,.06);color:var(--gold);" onclick="openTemplates()">☰ PLANTILLAS</button>
       <button class="hbtn purple" onclick="openConfig()">⚙ CONFIG</button>
       <button class="hbtn purple" onclick="openHelp()">? GUÍA</button>
@@ -288,7 +331,10 @@ textarea{resize:vertical;min-height:70px;line-height:1.6;}
     <input type="text" id="fTitle" placeholder="Título del video..."/>
     <label class="lbl">Caption</label>
     <textarea id="fCaption" placeholder="Escribe el caption aquí o genera con IA..."></textarea>
-    <label class="lbl">Hashtags</label>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
+      <label class="lbl" style="margin-bottom:0;">Hashtags</label>
+      <button onclick="openTagPicker()" style="font-family:'Space Mono',monospace;font-size:7px;font-weight:700;padding:3px 8px;border-radius:6px;border:1px solid rgba(124,58,255,.3);background:rgba(124,58,255,.06);color:var(--purple);cursor:pointer;-webkit-tap-highlight-color:transparent;">＃ BANCO</button>
+    </div>
     <input type="text" id="fHashtags" placeholder="#trap #beats #mkeyz"/>
     <label class="lbl">Ruta del archivo</label>
     <input type="text" id="fPath" placeholder="/home/mkeyz/content/mi-beat.mp4"/>
@@ -314,6 +360,7 @@ textarea{resize:vertical;min-height:70px;line-height:1.6;}
   <div id="detailBox">
     <div class="modal-handle"></div>
     <div id="detailContent"></div>
+    <div id="metricsSection" style="display:none;margin-bottom:12px;"></div>
     <div class="btn-row">
       <button class="btn btn-ghost" onclick="closeDetail()">Cerrar</button>
       <button class="btn btn-mint" onclick="editFromDetail()">✏ Editar</button>
@@ -490,6 +537,70 @@ textarea{resize:vertical;min-height:70px;line-height:1.6;}
     </div>
     <p style="font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);margin-bottom:12px;line-height:1.6;">Selecciona una plantilla para cargar su caption y hashtags en el formulario.</p>
     <div id="tplPickerList"></div>
+  </div>
+</div>
+
+
+<!-- STATS MODAL -->
+<div id="statsModal" class="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-handle"></div>
+    <div class="modal-title">
+      <span>Rendimiento</span>
+      <button class="modal-close" onclick="closeStats()">×</button>
+    </div>
+    <div id="statsContent"></div>
+  </div>
+</div>
+
+
+<!-- TAG BANK MODAL -->
+<div id="tagBankModal" class="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-handle"></div>
+    <div class="modal-title">
+      <span>Banco de Hashtags</span>
+      <button class="modal-close" onclick="closeTagBank()">×</button>
+    </div>
+
+    <div class="sec purple">Nuevo grupo</div>
+    <label class="lbl">Nombre del grupo</label>
+    <input type="text" id="tagName" placeholder="Ej: Trap Latino TikTok"/>
+    <div class="row2">
+      <div>
+        <label class="lbl">Plataforma</label>
+        <select id="tagPlat">
+          <option value="all">Todas</option>
+          <option value="tiktok">TikTok</option>
+          <option value="instagram">Instagram</option>
+          <option value="youtube">YouTube</option>
+          <option value="facebook">Facebook</option>
+        </select>
+      </div>
+      <div>
+        <label class="lbl">Género</label>
+        <input type="text" id="tagGenre" placeholder="Trap, Bachata..."/>
+      </div>
+    </div>
+    <label class="lbl">Hashtags (separados por espacios)</label>
+    <textarea id="tagHashtags" placeholder="#trap #trapbeat #trapmusic #latinotrap #beatmaker #instrumentales #hiphop #mkeyz" style="min-height:80px;"></textarea>
+    <button class="btn btn-mint" onclick="saveTagGroup()" style="margin-bottom:16px;">+ Guardar grupo</button>
+
+    <div class="sec purple">Mis grupos</div>
+    <div id="tagGroupList"></div>
+  </div>
+</div>
+
+<!-- TAG PICKER MODAL -->
+<div id="tagPickerModal" class="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-handle"></div>
+    <div class="modal-title">
+      <span>Elegir hashtags</span>
+      <button class="modal-close" onclick="closeTagPicker()">×</button>
+    </div>
+    <p style="font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);margin-bottom:12px;line-height:1.6;">Tap para añadir al post. Puedes combinar varios grupos.</p>
+    <div id="tagPickerList"></div>
   </div>
 </div>
 
@@ -760,6 +871,27 @@ Responde ÚNICAMENTE con un JSON válido, sin markdown, sin explicaciones:
       ${p.hashtags?`<div class="detail-hashtags">${esc(p.hashtags)}</div>`:''}
       ${p.media_path?`<div class="sec" style="margin-top:4px;">Archivo</div><div class="detail-path">${esc(p.media_path)}</div>`:''}
       ${p.notes?`<div class="sec">Notas</div><div style="font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);line-height:1.6;margin-bottom:12px;">${esc(p.notes)}</div>`:''}`;
+    // Metrics section
+    const ms = document.getElementById('metricsSection');
+    if(p.status==='published'){
+      const m = p.metrics||{};
+      ms.style.display='block';
+      ms.innerHTML=`
+        <div class="sec mint" style="margin-top:4px;">📊 Métricas</div>
+        <div class="metrics-grid">
+          <div class="metric-inp"><label class="lbl">👁 Views</label><input type="number" id="mViews" value="${m.views||''}" placeholder="0" min="0"/></div>
+          <div class="metric-inp"><label class="lbl">❤️ Likes</label><input type="number" id="mLikes" value="${m.likes||''}" placeholder="0" min="0"/></div>
+          <div class="metric-inp"><label class="lbl">💬 Comentarios</label><input type="number" id="mComments" value="${m.comments||''}" placeholder="0" min="0"/></div>
+          <div class="metric-inp"><label class="lbl">🔁 Shares</label><input type="number" id="mShares" value="${m.shares||''}" placeholder="0" min="0"/></div>
+          <div class="metric-inp"><label class="lbl">📥 Guardados</label><input type="number" id="mSaves" value="${m.saves||''}" placeholder="0" min="0"/></div>
+          <div class="metric-inp"><label class="lbl">📈 Alcance</label><input type="number" id="mReach" value="${m.reach||''}" placeholder="0" min="0"/></div>
+        </div>
+        ${m.views?`<div class="engagement-rate">Engagement: <strong style="color:var(--mint);">${calcEngagement(m)}%</strong></div>`:''}
+        <button class="btn btn-mint" style="margin-top:8px;" onclick="saveMetrics()">💾 Guardar métricas</button>
+      `;
+    } else {
+      ms.style.display='none';
+    }
     document.getElementById('detailModal').classList.add('open');
   };
   window.closeDetail=()=>document.getElementById('detailModal').classList.remove('open');
@@ -839,6 +971,237 @@ Responde ÚNICAMENTE con un JSON válido, sin markdown, sin explicaciones:
     toast('📦 JSON exportado');
   };
 
+
+
+
+  /* ── TAG BANK ── */
+  const TAG_KEY = 'mkeyz_tags_v1';
+  let TAGS = [];
+  try{ TAGS = JSON.parse(localStorage.getItem(TAG_KEY)||'[]'); }catch(e){ TAGS=[]; }
+  function saveTags(){ localStorage.setItem(TAG_KEY, JSON.stringify(TAGS)); }
+
+  function countHashtags(str){ return str.trim().split(/\s+/).filter(t=>t.startsWith('#')).length; }
+
+  function renderTagList(){
+    const el = document.getElementById('tagGroupList');
+    if(!TAGS.length){
+      el.innerHTML='<div class="tpl-empty">Sin grupos todavía.<br>Crea el primero arriba ↑</div>';
+      return;
+    }
+    el.innerHTML = TAGS.map(t=>`
+      <div class="tag-group-card">
+        <div class="tag-group-header">
+          <div class="tag-group-name">${esc(t.name)}</div>
+          <button class="tpl-btn del" onclick="deleteTagGroup(${t.id})">✕</button>
+        </div>
+        <div class="tag-group-meta">
+          <span class="tag-chip plat">${t.platform==='all'?'TODAS':t.platform.toUpperCase()}</span>
+          ${t.genre?`<span class="tag-chip genre">${esc(t.genre)}</span>`:''}
+          <span class="tag-count">${countHashtags(t.hashtags)} tags</span>
+        </div>
+        <div class="tag-preview">${esc(t.hashtags)}</div>
+        <div class="tpl-actions">
+          <button class="tpl-btn use" onclick="applyTagGroup(${t.id})">+ Añadir al post</button>
+        </div>
+      </div>`).join('');
+  }
+
+  window.openTagBank = ()=>{
+    renderTagList();
+    ['tagName','tagHashtags','tagGenre'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('tagPlat').value='all';
+    document.getElementById('tagBankModal').classList.add('open');
+  };
+  window.closeTagBank = ()=>document.getElementById('tagBankModal').classList.remove('open');
+
+  window.saveTagGroup = ()=>{
+    const name     = document.getElementById('tagName').value.trim();
+    const hashtags = document.getElementById('tagHashtags').value.trim();
+    if(!name)     return toast('⚠️ Ponle un nombre al grupo');
+    if(!hashtags) return toast('⚠️ Añade al menos un hashtag');
+    TAGS.push({
+      id: Date.now(),
+      name,
+      platform: document.getElementById('tagPlat').value,
+      genre:    document.getElementById('tagGenre').value.trim(),
+      hashtags,
+      created_at: new Date().toISOString(),
+    });
+    saveTags();
+    ['tagName','tagHashtags','tagGenre'].forEach(id=>document.getElementById(id).value='');
+    renderTagList();
+    toast('✅ Grupo guardado');
+  };
+
+  window.deleteTagGroup = id=>{
+    TAGS = TAGS.filter(t=>t.id!==id);
+    saveTags(); renderTagList();
+    toast('🗑 Grupo eliminado');
+  };
+
+  window.applyTagGroup = (id, fromPicker=false)=>{
+    const t = TAGS.find(x=>x.id===id); if(!t) return;
+    const field = document.getElementById('fHashtags');
+    const current = field.value.trim();
+    field.value = current ? current + ' ' + t.hashtags : t.hashtags;
+    if(fromPicker) closeTagPicker();
+    closeTagBank();
+    toast(`＃ ${countHashtags(t.hashtags)} hashtags añadidos`);
+  };
+
+  window.openTagPicker = ()=>{
+    const platform = S.selectedPlatform;
+    const filtered = TAGS.filter(t=>t.platform==='all'||t.platform===platform);
+    const el = document.getElementById('tagPickerList');
+    if(!filtered.length){
+      el.innerHTML=`<div class="tpl-empty">No hay grupos para ${platform.toUpperCase()}.<br>Crea uno desde ＃ TAGS arriba.</div>`;
+    } else {
+      el.innerHTML = filtered.map(t=>`
+        <div class="tag-picker-card" onclick="applyTagGroup(${t.id}, true)">
+          <div class="tag-group-header" style="margin-bottom:4px;">
+            <div class="tag-group-name">${esc(t.name)}</div>
+            <span class="tag-count">${countHashtags(t.hashtags)} tags</span>
+          </div>
+          <div class="tag-group-meta">
+            <span class="tag-chip plat">${t.platform==='all'?'TODAS':t.platform.toUpperCase()}</span>
+            ${t.genre?`<span class="tag-chip genre">${esc(t.genre)}</span>`:''}
+          </div>
+          <div class="tag-preview">${esc(t.hashtags)}</div>
+        </div>`).join('');
+    }
+    document.getElementById('tagPickerModal').classList.add('open');
+  };
+  window.closeTagPicker = ()=>document.getElementById('tagPickerModal').classList.remove('open');
+
+  /* ── METRICS & STATS ── */
+  function calcEngagement(m){
+    if(!m||!m.views||m.views===0) return '0.00';
+    const inter=(m.likes||0)+(m.comments||0)+(m.shares||0)+(m.saves||0);
+    return ((inter/m.views)*100).toFixed(2);
+  }
+
+  function fmtNum(n){
+    if(!n) return '0';
+    if(n>=1000000) return (n/1000000).toFixed(1)+'M';
+    if(n>=1000) return (n/1000).toFixed(1)+'K';
+    return String(n);
+  }
+
+  window.saveMetrics = ()=>{
+    const p = S.posts.find(x=>x.id===S.detailId); if(!p) return;
+    p.metrics = {
+      views:    parseInt(document.getElementById('mViews').value)||0,
+      likes:    parseInt(document.getElementById('mLikes').value)||0,
+      comments: parseInt(document.getElementById('mComments').value)||0,
+      shares:   parseInt(document.getElementById('mShares').value)||0,
+      saves:    parseInt(document.getElementById('mSaves').value)||0,
+      reach:    parseInt(document.getElementById('mReach').value)||0,
+      logged_at: new Date().toISOString(),
+    };
+    save(); toast('📊 Métricas guardadas');
+    // Refresh engagement display
+    const engEl = document.querySelector('.engagement-rate');
+    if(engEl) engEl.innerHTML=`Engagement: <strong style="color:var(--mint);">${calcEngagement(p.metrics)}%</strong>`;
+  };
+
+  window.openStats = ()=>{
+    const published = S.posts.filter(p=>p.status==='published'&&p.metrics&&p.metrics.views>0);
+    const el = document.getElementById('statsContent');
+
+    if(!published.length){
+      el.innerHTML='<div class="no-stats">Aún no hay posts publicados con métricas.<br><br>Marca posts como PUBLICADO y anota sus métricas desde el detalle del post.</div>';
+      document.getElementById('statsModal').classList.add('open');
+      return;
+    }
+
+    // Totals
+    const totViews    = published.reduce((a,p)=>a+(p.metrics.views||0),0);
+    const totLikes    = published.reduce((a,p)=>a+(p.metrics.likes||0),0);
+    const totComments = published.reduce((a,p)=>a+(p.metrics.comments||0),0);
+    const totShares   = published.reduce((a,p)=>a+(p.metrics.shares||0),0);
+    const totSaves    = published.reduce((a,p)=>a+(p.metrics.saves||0),0);
+    const totReach    = published.reduce((a,p)=>a+(p.metrics.reach||0),0);
+    const avgEng      = published.length
+      ? (published.reduce((a,p)=>a+parseFloat(calcEngagement(p.metrics)),0)/published.length).toFixed(2)
+      : '0.00';
+
+    // By platform
+    const platforms = ['tiktok','instagram','youtube','facebook'];
+    const platColors = {tiktok:'var(--tiktok)',instagram:'var(--instagram)',youtube:'var(--youtube)',facebook:'var(--facebook)'};
+    const platData = {};
+    platforms.forEach(pl=>{
+      const posts = published.filter(p=>p.platform===pl);
+      if(!posts.length) return;
+      const views = posts.reduce((a,p)=>a+(p.metrics.views||0),0);
+      const eng   = posts.length?(posts.reduce((a,p)=>a+parseFloat(calcEngagement(p.metrics)),0)/posts.length).toFixed(2):'0';
+      platData[pl] = { posts:posts.length, views, eng };
+    });
+    const maxViews = Math.max(...Object.values(platData).map(d=>d.views),1);
+
+    // By day of week
+    const dayNames=['DOM','LUN','MAR','MIÉ','JUE','VIE','SÁB'];
+    const dayData = Array(7).fill(null).map(()=>({views:0,posts:0}));
+    published.forEach(p=>{
+      const d = new Date(p.date+'T12:00:00').getDay();
+      dayData[d].views += p.metrics.views||0;
+      dayData[d].posts++;
+    });
+    const maxDayViews = Math.max(...dayData.map(d=>d.views),1);
+
+    // Top 3 posts
+    const top3 = [...published].sort((a,b)=>(b.metrics.views||0)-(a.metrics.views||0)).slice(0,3);
+
+    el.innerHTML = `
+      <div class="stats-total">${published.length} posts con métricas registradas</div>
+
+      <div class="stat-num-grid">
+        <div class="stat-num-card"><span class="stat-num-val">${fmtNum(totViews)}</span><span class="stat-num-lbl">👁 VIEWS</span></div>
+        <div class="stat-num-card"><span class="stat-num-val">${fmtNum(totLikes)}</span><span class="stat-num-lbl">❤️ LIKES</span></div>
+        <div class="stat-num-card"><span class="stat-num-val">${fmtNum(totComments)}</span><span class="stat-num-lbl">💬 COMMS</span></div>
+        <div class="stat-num-card"><span class="stat-num-val">${fmtNum(totShares)}</span><span class="stat-num-lbl">🔁 SHARES</span></div>
+        <div class="stat-num-card"><span class="stat-num-val">${fmtNum(totSaves)}</span><span class="stat-num-lbl">📥 SAVES</span></div>
+        <div class="stat-num-card"><span class="stat-num-val">${avgEng}%</span><span class="stat-num-lbl">📈 ENG. AVG</span></div>
+      </div>
+
+      ${Object.keys(platData).length ? `
+      <div class="stat-block">
+        <div class="stat-block-title">Por plataforma</div>
+        ${Object.entries(platData).map(([pl,d])=>`
+          <div class="stat-row">
+            <div class="stat-row-label" style="width:80px;color:${platColors[pl]}">${pl.toUpperCase()}<span style="color:var(--dim);font-size:7px;">${d.posts}p</span></div>
+            <div class="stat-bar-wrap"><div class="stat-bar" style="width:${Math.round((d.views/maxViews)*100)}%;background:${platColors[pl]};"></div></div>
+            <div class="stat-row-val">${fmtNum(d.views)}</div>
+          </div>
+          <div style="font-family:'Space Mono',monospace;font-size:8px;color:var(--muted);text-align:right;margin-top:-4px;margin-bottom:8px;">eng ${d.eng}%</div>
+        `).join('')}
+      </div>` : ''}
+
+      <div class="stat-block">
+        <div class="stat-block-title">Mejores días</div>
+        ${dayData.map((d,i)=>d.posts?`
+          <div class="stat-row">
+            <div class="stat-row-label" style="width:40px;">${dayNames[i]}</div>
+            <div class="stat-bar-wrap"><div class="stat-bar" style="width:${Math.round((d.views/maxDayViews)*100)}%;background:var(--mint);"></div></div>
+            <div class="stat-row-val">${fmtNum(d.views)}</div>
+          </div>`:'').join('')}
+      </div>
+
+      ${top3.length ? `
+      <div class="stat-block">
+        <div class="stat-block-title">Top posts por views</div>
+        ${top3.map(p=>`
+          <div class="top-post" onclick="closeStats();openDetail(${p.id})">
+            <div class="top-post-info">
+              <div class="top-post-plat" style="color:${platColors[p.platform]}">${p.platform.toUpperCase()} · ${p.date}</div>
+              <div class="top-post-caption">${esc(p.caption||p.title||'Sin caption')}</div>
+            </div>
+            <div class="top-post-views">${fmtNum(p.metrics.views)}</div>
+          </div>`).join('')}
+      </div>` : ''}
+    `;
+    document.getElementById('statsModal').classList.add('open');
+  };
+  window.closeStats = ()=>document.getElementById('statsModal').classList.remove('open');
 
   /* ── TEMPLATES ── */
   window.openTemplates = ()=>{
@@ -933,7 +1296,7 @@ Responde ÚNICAMENTE con un JSON válido, sin markdown, sin explicaciones:
   window.closePicker = ()=>document.getElementById('tplPicker').classList.remove('open');
 
   /* ── BACKDROP CLOSE ── */
-  ['modal','configModal','helpModal','tplModal','tplPicker'].forEach(id=>{
+  ['modal','configModal','helpModal','tplModal','tplPicker','statsModal','tagBankModal','tagPickerModal'].forEach(id=>{
     document.getElementById(id).addEventListener('click',e=>{
       if(e.target.id===id) document.getElementById(id).classList.remove('open');
     });
