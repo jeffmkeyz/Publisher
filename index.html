@@ -443,19 +443,22 @@ textarea{resize:vertical;min-height:70px;line-height:1.6;}
   <div class="modal-box">
     <div class="modal-handle"></div>
     <div class="modal-title">
-      <span>Guía & Configuración</span>
+      <span>Guía & Referencia</span>
       <button class="modal-close" onclick="closeHelp()">×</button>
     </div>
-    <div class="sec">Cómo funciona</div>
+
+    <div class="sec">Flujo de trabajo</div>
     <div class="help-block">
       <p>Centro de planificación de contenido. Tú organizas aquí, el servidor publica solo.</p>
       <ul style="margin-top:8px;">
-        <li>Creas posts con plataforma, fecha, hora, caption y ruta del archivo</li>
-        <li>Usas ✨ IA para generar el texto adaptado a cada plataforma</li>
-        <li>Exportas el JSON — el servidor lo lee y publica a la hora exacta</li>
-        <li>El script actualiza el estado a <code>published</code> automáticamente</li>
+        <li>Planifica la semana completa cada domingo</li>
+        <li>Usa ✨ IA para generar el contenido por plataforma</li>
+        <li>Elige entre 3 versiones y ajusta a tu voz</li>
+        <li>Exporta el JSON — el servidor lo lee y publica a la hora exacta</li>
+        <li>Anota métricas en los posts publicados para alimentar los Stats</li>
       </ul>
     </div>
+
     <div class="sec">Flujo de estados</div>
     <div class="help-block">
       <div class="status-flow">
@@ -465,53 +468,119 @@ textarea{resize:vertical;min-height:70px;line-height:1.6;}
         <span class="sf-item st-published">PUBLICADO</span>
       </div>
       <ul>
-        <li><strong style="color:var(--muted);">BORRADOR</strong> — En construcción</li>
-        <li><strong style="color:var(--gold);">LISTO</strong> — Caption, archivo y hora confirmados</li>
+        <li><strong style="color:var(--muted);">BORRADOR</strong> — En construcción, falta algo</li>
+        <li><strong style="color:var(--gold);">LISTO</strong> — Caption, hashtags y hora confirmados</li>
         <li><strong style="color:var(--blue);">PROGRAMADO</strong> — El servidor lo tiene en cola</li>
-        <li><strong style="color:var(--mint);">PUBLICADO</strong> — Ya está en la plataforma</li>
+        <li><strong style="color:var(--mint);">PUBLICADO</strong> — En la plataforma. Anota métricas aquí</li>
       </ul>
     </div>
-    <div class="sec gold">Plataformas & Automatización</div>
+
+    <div class="sec purple">✨ Generación con IA</div>
+    <div class="help-block">
+      <ul>
+        <li>Escribe el tema del post en una línea — no necesita ser largo</li>
+        <li>Elige el tono antes de generar: <strong style="color:#fff;">Street / Lírico / Negocio / Misterioso</strong></li>
+        <li>La IA genera <strong style="color:#fff;">3 versiones</strong> con ángulos distintos del mismo tono</li>
+        <li>Tap en <strong style="color:var(--mint);">✓ Usar esta</strong> para cargar la versión al formulario</li>
+        <li>Ajusta siempre el resultado a tu voz antes de guardar</li>
+      </ul>
+      <p style="margin-top:8px;">Tonos disponibles:</p>
+      <ul>
+        <li><strong style="color:#fff;">🔥 Street</strong> — Directo, crudo, lenguaje de la calle</li>
+        <li><strong style="color:#fff;">🎭 Lírico</strong> — Poético, metáforas, más artístico</li>
+        <li><strong style="color:#fff;">💼 Negocio</strong> — CTA claro, orientado a conversión</li>
+        <li><strong style="color:#fff;">🌊 Misterioso</strong> — Intriga, no revela todo, genera curiosidad</li>
+      </ul>
+    </div>
+
+    <div class="sec gold">☰ Plantillas</div>
+    <div class="help-block">
+      <ul>
+        <li>Guarda estructuras de caption que funcionan para reutilizarlas</li>
+        <li>Usa variables: <code>{tema}</code> <code>{artista}</code> <code>{genero}</code> <code>{fecha}</code></li>
+        <li>Filtra por plataforma — solo ves las compatibles con el post actual</li>
+        <li>Combina plantilla + IA: aplica la plantilla y luego refina con IA</li>
+      </ul>
+    </div>
+
+    <div class="sec purple">＃ Banco de Hashtags</div>
+    <div class="help-block">
+      <ul>
+        <li>Crea grupos por plataforma y género</li>
+        <li>Tap en <strong style="color:var(--mint);">+ Añadir al post</strong> — se suman sin borrar lo que hay</li>
+        <li>Puedes combinar varios grupos en un mismo post</li>
+        <li>Recomendado: grupo general + grupo específico del contenido</li>
+      </ul>
+      <p style="margin-top:6px;">Estrategia por plataforma:</p>
+      <ul>
+        <li><strong style="color:var(--tiktok);">TikTok</strong> — Mix trending grandes (#fyp) + nicho musical. Máx 5-7 tags</li>
+        <li><strong style="color:var(--instagram);">Instagram</strong> — 10-15 de nicho específico, sin mega-genéricos</li>
+        <li><strong style="color:var(--youtube);">YouTube</strong> — 3-5 relevantes al contenido exacto</li>
+        <li><strong style="color:var(--facebook);">Facebook</strong> — 2-3 máximo, casi no impactan el alcance</li>
+      </ul>
+    </div>
+
+    <div class="sec blue">📊 Stats & Métricas</div>
+    <div class="help-block">
+      <ul>
+        <li>Abre el detalle de un post <strong style="color:var(--mint);">PUBLICADO</strong> para anotar sus métricas</li>
+        <li>Métricas disponibles: Views, Likes, Comentarios, Shares, Guardados, Alcance</li>
+        <li>El engagement % se calcula automáticamente</li>
+        <li>📊 STATS muestra totales, rendimiento por plataforma, mejores días y top posts</li>
+        <li>Con el tiempo revela qué plataforma, horario y tipo de contenido funciona mejor para ti</li>
+      </ul>
+    </div>
+
+    <div class="sec">📋 Copiar al portapapeles</div>
+    <div class="help-block">
+      <ul>
+        <li>En el detalle de cualquier post, tap en <strong style="color:var(--blue);">📋 Copiar</strong></li>
+        <li>Copia caption + hashtags listos para pegar directamente en la plataforma</li>
+        <li>Útil para publicar manualmente sin esperar el servidor</li>
+      </ul>
+    </div>
+
+    <div class="sec gold">Plataformas & Automatización futura</div>
     <div class="help-block"><ul>
       <li><strong style="color:var(--tiktok);">TikTok</strong> — Bot Playwright, sesión guardada en servidor</li>
       <li><strong style="color:var(--instagram);">Instagram</strong> — Bot Playwright, sesión persistente</li>
-      <li><strong style="color:var(--youtube);">YouTube</strong> — API oficial Google, más estable</li>
+      <li><strong style="color:var(--youtube);">YouTube</strong> — API oficial Google, más estable para empezar</li>
       <li><strong style="color:var(--facebook);">Facebook</strong> — API oficial para páginas</li>
     </ul></div>
-    <div class="sec purple">Convención de rutas</div>
-    <div class="help-block">
-      <code>/home/mkeyz/content/videos/nombre.mp4</code><br>
-      <code>/home/mkeyz/content/images/nombre.jpg</code><br>
-      <p style="margin-top:8px;">Lo que escribas en Ruta del archivo es lo que el script Python buscará en el servidor.</p>
-    </div>
+
     <div class="sec pink">Estructura JSON exportado</div>
     <div class="help-block">
-      <div class="json-block"><span class="json-key">"id"</span>: <span class="json-str">1747526400000</span>,     <span class="json-comment">// timestamp único</span>
-<span class="json-key">"platform"</span>: <span class="json-str">"tiktok"</span>,    <span class="json-comment">// tiktok|instagram|youtube|facebook</span>
+      <div class="json-block"><span class="json-key">"platform"</span>: <span class="json-str">"tiktok"</span>,    <span class="json-comment">// tiktok|instagram|youtube|facebook</span>
 <span class="json-key">"date"</span>: <span class="json-str">"2026-05-20"</span>,    <span class="json-comment">// YYYY-MM-DD</span>
 <span class="json-key">"time"</span>: <span class="json-str">"19:00"</span>,        <span class="json-comment">// HH:MM (24h)</span>
 <span class="json-key">"title"</span>: <span class="json-str">"Título"</span>,      <span class="json-comment">// YouTube mainly</span>
 <span class="json-key">"caption"</span>: <span class="json-str">"Texto..."</span>,   <span class="json-comment">// caption completo</span>
 <span class="json-key">"hashtags"</span>: <span class="json-str">"#trap"</span>,     <span class="json-comment">// se añaden al caption</span>
-<span class="json-key">"media_path"</span>: <span class="json-str">"/home/..."</span>, <span class="json-comment">// ruta en servidor</span>
-<span class="json-key">"status"</span>: <span class="json-str">"ready"</span>        <span class="json-comment">// script busca "ready"</span></div>
+<span class="json-key">"media_path"</span>: <span class="json-str">"/home/..."</span>, <span class="json-comment">// ruta en servidor Linux</span>
+<span class="json-key">"status"</span>: <span class="json-str">"ready"</span>,       <span class="json-comment">// script busca "ready"</span>
+<span class="json-key">"metrics"</span>: <span class="json-str">{views,likes...}</span> <span class="json-comment">// métricas reales</span></div>
       <p>El script solo procesa posts con <code>status: "ready"</code> o <code>"scheduled"</code>.</p>
     </div>
-    <div class="sec blue">Servidor (cuando lo tengas)</div>
+
+    <div class="sec blue">Servidor Linux (cuando lo tengas)</div>
     <div class="help-block"><ul>
       <li><code class="gold">pip install playwright google-api-python-client</code></li>
       <li><code class="gold">playwright install chromium</code></li>
-      <li>Sesiones guardadas en <code>/home/mkeyz/browser-profile/</code></li>
-      <li>Cron revisa el JSON cada minuto y publica si la hora coincide</li>
+      <li>Sesiones del browser en <code>/home/mkeyz/browser-profile/</code></li>
+      <li>Cron revisa el JSON cada minuto — publica si hora coincide y status = ready</li>
+      <li>Al publicar actualiza el status a <code>published</code> en el JSON</li>
     </ul></div>
-    <div class="sec">Tips</div>
+
+    <div class="sec">Tips clave</div>
     <div class="help-block"><ul>
-      <li>Planifica la semana completa los domingos</li>
-      <li>Usa ✨ IA para el primer borrador, luego ajusta a tu voz</li>
-      <li>YouTube es la plataforma más estable — empieza por ahí</li>
-      <li>Mejores horas TikTok: 7am, 12pm, 7pm hora local</li>
-      <li>Datos guardados en localStorage — no se pierden al cerrar</li>
+      <li>Todos los datos viven en <strong style="color:#fff;">localStorage</strong> — solo en este dispositivo</li>
+      <li>Exporta el JSON como backup semanal además de enviarlo al servidor</li>
+      <li>TikTok: mejores horas 7am, 12pm, 7pm hora local</li>
+      <li>Instagram: martes-viernes entre 9am-11am y 6pm-8pm</li>
+      <li>YouTube: no importa tanto la hora, más el título SEO y thumbnail</li>
+      <li>Rota las API keys de Gemini desde ⚙ CONFIG si se agota el free tier</li>
     </ul></div>
+
     <button class="btn btn-ghost" onclick="closeHelp()" style="margin-top:8px;">Cerrar</button>
   </div>
 </div>
