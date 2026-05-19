@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
+<meta name="theme-color" content="#030308"/>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+<meta http-equiv="Pragma" content="no-cache"/>
+<meta http-equiv="Expires" content="0"/>
+<title>MKEYZ · Publisher</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@700;800&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#030308;--card:rgba(13,13,26,0.9);--s2:#111120;
+  --border:rgba(255,255,255,0.06);--mint:#00F5A0;--pink:#FF2D78;
+  --purple:#7C3AFF;--gold:#FFB830;--blue:#00E5FF;
+  --text:#E0E0F0;--muted:#7A7A9A;--dim:#2A2A44;
+  --r-lg:18px;--r-md:12px;--r-sm:8px;
+  --tiktok:#FF2D78;--instagram:#7C3AFF;--youtube:#FFB830;--facebook:#00E5FF;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'Syne',sans-serif;min-height:100vh;padding:0 0 100px;overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+::-webkit-scrollbar{width:3px;height:3px;}
+::-webkit-scrollbar-thumb{background:var(--dim);border-radius:3px;}
+
+.bg-fx{position:fixed;inset:0;z-index:-2;pointer-events:none;background:radial-gradient(circle at 0% 0%,rgba(0,245,160,.04) 0%,transparent 50%),radial-gradient(circle at 100% 100%,rgba(255,45,120,.04) 0%,transparent 50%),radial-gradient(circle at 50% 50%,rgba(124,58,255,.03) 0%,transparent 60%);}
+.grid-fx{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.18;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:40px 40px;}
+
+/* HEADER */
+#hdr{position:sticky;top:0;z-index:200;background:rgba(3,3,8,.96);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:14px 16px 12px;}
+.hdr-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.brand{font-family:'Space Mono',monospace;font-size:16px;font-weight:700;letter-spacing:.15em;background:linear-gradient(90deg,#fff 20%,var(--mint),var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.version{font-family:'Space Mono',monospace;font-size:7px;color:var(--dim);letter-spacing:.2em;margin-top:1px;}
+.hdr-actions{display:flex;gap:6px;align-items:center;}
+.hbtn{font-family:'Space Mono',monospace;font-size:8px;font-weight:700;letter-spacing:.06em;padding:7px 10px;border-radius:var(--r-sm);border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;transition:all .2s;-webkit-tap-highlight-color:transparent;white-space:nowrap;}
+.hbtn:active{border-color:var(--gold);color:var(--gold);}
+.hbtn.purple{border-color:rgba(124,58,255,.3);background:rgba(124,58,255,.06);color:var(--purple);}
+.hbtn.purple:active{background:rgba(124,58,255,.15);}
+.btn-add{width:36px;height:36px;border-radius:50%;border:none;background:var(--mint);color:#000;font-size:20px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .15s;-webkit-tap-highlight-color:transparent;}
+.btn-add:active{transform:scale(.9);}
+.week-nav{display:flex;align-items:center;justify-content:space-between;}
+.week-label{font-family:'Space Mono',monospace;font-size:10px;font-weight:700;color:var(--text);letter-spacing:.08em;}
+.arrow{width:28px;height:28px;border-radius:var(--r-sm);border:1px solid var(--border);background:transparent;color:var(--muted);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;-webkit-tap-highlight-color:transparent;}
+.arrow:active{border-color:var(--mint);color:var(--mint);}
+
+/* STATS */
+#statsBar{display:flex;gap:6px;padding:10px 16px 0;overflow-x:auto;scrollbar-width:none;}
+#statsBar::-webkit-scrollbar{display:none;}
+.stat-pill{flex-shrink:0;font-family:'Space Mono',monospace;font-size:8px;font-weight:700;letter-spacing:.06em;padding:5px 10px;border-radius:20px;border:1px solid var(--border);background:var(--card);color:var(--muted);white-space:nowrap;}
+.stat-pill span{font-size:11px;margin-right:4px;}
+.stat-pill.mint{border-color:rgba(0,245,160,.25);color:var(--mint);}
+.stat-pill.gold{border-color:rgba(255,184,48,.25);color:var(--gold);}
+
+/* WEEK GRID */
+#weekGrid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;padding:12px 16px 0;overflow-x:auto;}
+@media(max-width:480px){#weekGrid{grid-template-columns:repeat(7,minmax(90px,1fr));padding-bottom:4px;}}
+.day-col{background:rgba(255,255,255,.01);border:1px solid var(--border);border-radius:var(--r-md);padding:8px 6px;min-width:90px;}
+.day-col.today{border-color:rgba(0,245,160,.25);background:rgba(0,245,160,.02);}
+.day-hdr{text-align:center;margin-bottom:8px;}
+.day-name{font-family:'Space Mono',monospace;font-size:8px;font-weight:700;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;}
+.day-num{font-family:'Space Mono',monospace;font-size:18px;font-weight:700;color:var(--text);line-height:1.1;margin-top:2px;}
+.day-col.today .day-num{color:var(--mint);}
+.day-posts{display:flex;flex-direction:column;gap:5px;}
+
+/* POST CARD */
+.post-card{border-radius:var(--r-sm);padding:8px;border:1px solid var(--border);background:rgba(0,0,0,.3);cursor:pointer;transition:all .15s;-webkit-tap-highlight-color:transparent;position:relative;overflow:hidden;}
+.post-card:active{transform:scale(.97);}
+.post-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;border-radius:2px 0 0 2px;}
+.post-card.tiktok::before{background:var(--tiktok);}
+.post-card.instagram::before{background:var(--instagram);}
+.post-card.youtube::before{background:var(--youtube);}
+.post-card.facebook::before{background:var(--facebook);}
+.post-platform{font-family:'Space Mono',monospace;font-size:7px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px;}
+.post-card.tiktok .post-platform{color:var(--tiktok);}
+.post-card.instagram .post-platform{color:var(--instagram);}
+.post-card.youtube .post-platform{color:var(--youtube);}
+.post-card.facebook .post-platform{color:var(--facebook);}
+.post-time{font-family:'Space Mono',monospace;font-size:9px;font-weight:700;color:#fff;margin-bottom:3px;}
+.post-caption{font-size:9px;color:var(--muted);line-height:1.4;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;}
+.post-status{margin-top:5px;display:inline-block;font-family:'Space Mono',monospace;font-size:7px;font-weight:700;letter-spacing:.06em;padding:2px 6px;border-radius:10px;text-transform:uppercase;}
+.st-draft{background:rgba(122,122,154,.1);color:var(--muted);}
+.st-ready{background:rgba(255,184,48,.1);color:var(--gold);border:1px solid rgba(255,184,48,.2);}
+.st-scheduled{background:rgba(0,229,255,.1);color:var(--blue);border:1px solid rgba(0,229,255,.2);}
+.st-published{background:rgba(0,245,160,.1);color:var(--mint);border:1px solid rgba(0,245,160,.2);}
+.day-empty{text-align:center;padding:12px 4px;font-family:'Space Mono',monospace;font-size:8px;color:var(--dim);line-height:1.6;cursor:pointer;border:1px dashed var(--dim);border-radius:var(--r-sm);transition:all .2s;-webkit-tap-highlight-color:transparent;}
+.day-empty:active{border-color:var(--mint);color:var(--mint);}
+
+/* MODALS */
+.modal-overlay{position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.85);backdrop-filter:blur(8px);display:none;align-items:flex-end;justify-content:center;}
+.modal-overlay.open{display:flex;}
+.modal-box{width:100%;max-width:480px;background:#0D0D1A;border-radius:24px 24px 0 0;border:1px solid var(--border);border-bottom:none;padding:20px 18px 48px;max-height:90vh;overflow-y:auto;animation:slideUp .3s cubic-bezier(.16,1,.3,1);}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.modal-handle{width:32px;height:3px;background:var(--dim);border-radius:2px;margin:0 auto 16px;}
+.modal-title{font-size:18px;font-weight:800;color:#fff;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;}
+.modal-close{width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.05);border:1px solid var(--border);color:var(--muted);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent;}
+
+/* AI GENERATOR BOX */
+.ai-box{background:rgba(124,58,255,.05);border:1px solid rgba(124,58,255,.2);border-radius:var(--r-md);padding:12px;margin-bottom:14px;}
+.ai-box-title{font-family:'Space Mono',monospace;font-size:8px;font-weight:700;letter-spacing:.12em;color:var(--purple);text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+.ai-topic{width:100%;padding:10px 12px;background:rgba(0,0,0,.4);border:1px solid rgba(124,58,255,.2);border-radius:var(--r-sm);color:var(--text);font-family:'Space Mono',monospace;font-size:11px;outline:none;margin-bottom:8px;transition:border-color .2s;}
+.ai-topic:focus{border-color:rgba(124,58,255,.5);}
+.ai-topic::placeholder{color:var(--dim);}
+.btn-ai{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;padding:11px;border:none;border-radius:var(--r-sm);background:linear-gradient(135deg,var(--purple),var(--pink));color:#fff;font-family:'Space Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.08em;cursor:pointer;transition:all .15s;-webkit-tap-highlight-color:transparent;}
+.btn-ai:active{transform:scale(.97);}
+.btn-ai:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+.ai-loading{display:none;align-items:center;gap:8px;font-family:'Space Mono',monospace;font-size:9px;color:var(--purple);margin-top:8px;}
+.ai-loading.show{display:flex;}
+.dot-pulse{width:6px;height:6px;border-radius:50%;background:var(--purple);animation:pulse 1s infinite;}
+.dot-pulse:nth-child(2){animation-delay:.2s;}
+.dot-pulse:nth-child(3){animation-delay:.4s;}
+@keyframes pulse{0%,100%{opacity:.3;transform:scale(.8);}50%{opacity:1;transform:scale(1.2);}}
+.ai-no-key{font-family:'Space Mono',monospace;font-size:9px;color:var(--pink);margin-top:6px;display:none;}
+.ai-no-key.show{display:block;}
+
+/* PLATFORM SELECTOR */
+.platform-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:12px;}
+.plat-btn{padding:10px 6px;border-radius:var(--r-sm);border:1px solid var(--border);background:rgba(0,0,0,.3);color:var(--muted);cursor:pointer;text-align:center;font-family:'Space Mono',monospace;font-size:8px;font-weight:700;letter-spacing:.04em;transition:all .2s;-webkit-tap-highlight-color:transparent;}
+.plat-btn .plat-icon{font-size:18px;display:block;margin-bottom:4px;}
+.plat-btn.active.tiktok{border-color:var(--tiktok);background:rgba(255,45,120,.08);color:var(--tiktok);}
+.plat-btn.active.instagram{border-color:var(--instagram);background:rgba(124,58,255,.08);color:var(--instagram);}
+.plat-btn.active.youtube{border-color:var(--youtube);background:rgba(255,184,48,.08);color:var(--youtube);}
+.plat-btn.active.facebook{border-color:var(--facebook);background:rgba(0,229,255,.08);color:var(--facebook);}
+
+/* FORM */
+.lbl{font-family:'Space Mono',monospace;font-size:8px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px;display:block;}
+input,select,textarea{width:100%;padding:10px 12px;background:rgba(0,0,0,.4);border:1px solid var(--border);border-radius:var(--r-sm);color:var(--text);font-family:'Space Mono',monospace;font-size:11px;outline:none;margin-bottom:10px;transition:border-color .2s;}
+input:focus,select:focus,textarea:focus{border-color:rgba(0,245,160,.4);}
+select option{background:#0D0D1A;}
+textarea{resize:vertical;min-height:70px;line-height:1.6;}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+
+/* STATUS */
+.status-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:12px;}
+.st-btn{padding:8px 4px;border-radius:var(--r-sm);border:1px solid var(--border);background:rgba(0,0,0,.3);cursor:pointer;text-align:center;transition:all .2s;font-family:'Space Mono',monospace;font-size:7px;font-weight:700;letter-spacing:.04em;color:var(--muted);-webkit-tap-highlight-color:transparent;}
+.st-btn.active.draft{border-color:var(--muted);color:var(--muted);background:rgba(122,122,154,.1);}
+.st-btn.active.ready{border-color:var(--gold);color:var(--gold);background:rgba(255,184,48,.08);}
+.st-btn.active.scheduled{border-color:var(--blue);color:var(--blue);background:rgba(0,229,255,.08);}
+.st-btn.active.published{border-color:var(--mint);color:var(--mint);background:rgba(0,245,160,.08);}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:12px 16px;border:none;border-radius:var(--r-md);font-family:'Space Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.08em;cursor:pointer;transition:all .15s;width:100%;-webkit-tap-highlight-color:transparent;}
+.btn:active{transform:scale(.97);}
+.btn-mint{background:var(--mint);color:#000;}
+.btn-danger{background:rgba(255,45,120,.1);border:1px solid rgba(255,45,120,.2);color:var(--pink);}
+.btn-ghost{background:transparent;border:1px solid var(--border);color:var(--muted);}
+.btn-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px;}
+
+/* SEC */
+.sec{font-family:'Space Mono',monospace;font-size:8px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--mint);margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+.sec::before{content:'';width:10px;height:1px;background:var(--mint);}
+.sec.gold{color:var(--gold);}.sec.gold::before{background:var(--gold);}
+.sec.purple{color:var(--purple);}.sec.purple::before{background:var(--purple);}
+.sec.pink{color:var(--pink);}.sec.pink::before{background:var(--pink);}
+.sec.blue{color:var(--blue);}.sec.blue::before{background:var(--blue);}
+
+/* CONFIG MODAL */
+.config-key-wrap{position:relative;margin-bottom:10px;}
+.config-key-wrap input{margin-bottom:0;padding-right:44px;}
+.key-toggle{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--muted);cursor:pointer;font-size:14px;padding:4px;}
+.key-status{font-family:'Space Mono',monospace;font-size:9px;margin-bottom:10px;}
+.key-status.ok{color:var(--mint);}
+.key-status.no{color:var(--pink);}
+.config-info{background:rgba(0,0,0,.3);border:1px solid var(--border);border-radius:var(--r-sm);padding:10px 12px;font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.config-info a{color:var(--purple);text-decoration:none;}
+
+/* DETAIL */
+#detailModal{position:fixed;inset:0;z-index:600;background:rgba(0,0,0,.9);backdrop-filter:blur(8px);display:none;align-items:flex-end;justify-content:center;}
+#detailModal.open{display:flex;}
+#detailBox{width:100%;max-width:480px;background:#0D0D1A;border-radius:24px 24px 0 0;border:1px solid var(--border);border-bottom:none;padding:20px 18px 48px;animation:slideUp .3s cubic-bezier(.16,1,.3,1);}
+.detail-plat{font-family:'Space Mono',monospace;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px;}
+.detail-time{font-size:28px;font-weight:800;color:#fff;margin-bottom:4px;}
+.detail-caption{font-family:'Space Mono',monospace;font-size:11px;color:var(--text);line-height:1.7;padding:12px;background:rgba(0,0,0,.3);border-radius:var(--r-sm);border:1px solid var(--border);margin:10px 0;white-space:pre-wrap;}
+.detail-hashtags{font-family:'Space Mono',monospace;font-size:10px;color:var(--purple);line-height:1.6;margin-bottom:10px;}
+.detail-path{font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);background:rgba(0,0,0,.3);padding:8px 10px;border-radius:var(--r-sm);border:1px solid var(--border);margin-bottom:12px;word-break:break-all;}
+
+/* HELP */
+.help-block{background:rgba(0,0,0,.3);border:1px solid var(--border);border-radius:var(--r-md);padding:14px;margin-bottom:12px;}
+.help-block p,.help-block li{font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);line-height:1.8;margin-bottom:6px;}
+.help-block li{list-style:none;padding-left:12px;position:relative;}
+.help-block li::before{content:'›';position:absolute;left:0;color:var(--mint);}
+.help-block code{background:rgba(0,245,160,.06);border:1px solid rgba(0,245,160,.15);border-radius:4px;padding:2px 6px;font-size:9px;color:var(--mint);display:inline-block;margin:2px 0;word-break:break-all;}
+.help-block code.gold{background:rgba(255,184,48,.06);border-color:rgba(255,184,48,.15);color:var(--gold);}
+.help-block code.purple{background:rgba(124,58,255,.06);border-color:rgba(124,58,255,.15);color:var(--purple);}
+.help-block code.pink{background:rgba(255,45,120,.06);border-color:rgba(255,45,120,.15);color:var(--pink);}
+.help-block code.blue{background:rgba(0,229,255,.06);border-color:rgba(0,229,255,.15);color:var(--blue);}
+.status-flow{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin:8px 0;}
+.sf-item{font-family:'Space Mono',monospace;font-size:8px;font-weight:700;padding:4px 10px;border-radius:10px;}
+.sf-arr{color:var(--dim);font-size:12px;}
+.json-block{background:rgba(0,0,0,.5);border:1px solid rgba(0,245,160,.1);border-radius:var(--r-sm);padding:12px;font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);line-height:1.9;overflow-x:auto;margin:8px 0;white-space:pre;}
+.json-key{color:var(--purple);}.json-str{color:var(--gold);}.json-comment{color:var(--dim);}
+
+/* TOAST */
+.toast{position:fixed;bottom:28px;left:50%;transform:translate(-50%,16px);background:#fff;color:#000;padding:9px 18px;border-radius:24px;font-family:'Space Mono',monospace;font-weight:700;font-size:11px;z-index:999;opacity:0;pointer-events:none;transition:all .25s;white-space:nowrap;}
+.toast.show{opacity:1;transform:translate(-50%,0);}
+
+/* TEMPLATES */
+.tpl-card{background:rgba(0,0,0,.3);border:1px solid var(--border);border-radius:var(--r-md);padding:12px;margin-bottom:8px;position:relative;}
+.tpl-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;border-radius:2px 0 0 2px;}
+.tpl-card.tiktok::before{background:var(--tiktok);}
+.tpl-card.instagram::before{background:var(--instagram);}
+.tpl-card.youtube::before{background:var(--youtube);}
+.tpl-card.facebook::before{background:var(--facebook);}
+.tpl-card.all::before{background:var(--gold);}
+.tpl-name{font-family:'Space Mono',monospace;font-size:10px;font-weight:700;color:#fff;margin-bottom:4px;}
+.tpl-plat{font-family:'Space Mono',monospace;font-size:7px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px;}
+.tpl-card.tiktok .tpl-plat{color:var(--tiktok);}
+.tpl-card.instagram .tpl-plat{color:var(--instagram);}
+.tpl-card.youtube .tpl-plat{color:var(--youtube);}
+.tpl-card.facebook .tpl-plat{color:var(--facebook);}
+.tpl-card.all .tpl-plat{color:var(--gold);}
+.tpl-preview{font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);line-height:1.6;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;margin-bottom:8px;}
+.tpl-actions{display:flex;gap:6px;}
+.tpl-btn{font-family:'Space Mono',monospace;font-size:8px;font-weight:700;padding:5px 10px;border-radius:6px;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:all .15s;border:1px solid var(--border);background:transparent;color:var(--muted);}
+.tpl-btn:active{transform:scale(.95);}
+.tpl-btn.use{border-color:rgba(0,245,160,.3);background:rgba(0,245,160,.06);color:var(--mint);}
+.tpl-btn.del{border-color:rgba(255,45,120,.2);background:rgba(255,45,120,.05);color:var(--pink);}
+.tpl-empty{text-align:center;padding:24px;font-family:'Space Mono',monospace;font-size:9px;color:var(--dim);line-height:1.8;border:1px dashed var(--dim);border-radius:var(--r-md);}
+.placeholder-hint{font-family:'Space Mono',monospace;font-size:8px;color:var(--muted);margin-bottom:8px;line-height:1.7;}
+.placeholder-hint code{background:rgba(255,184,48,.08);border:1px solid rgba(255,184,48,.2);border-radius:4px;padding:1px 5px;color:var(--gold);font-size:8px;}
+.picker-card{background:rgba(0,0,0,.3);border:1px solid var(--border);border-radius:var(--r-md);padding:12px;margin-bottom:8px;cursor:pointer;transition:all .15s;-webkit-tap-highlight-color:transparent;}
+.picker-card:active{border-color:var(--mint);transform:scale(.98);}
+
+</style>
+</head>
+<body>
+<div class="bg-fx"></div>
+<div class="grid-fx"></div>
+
+<!-- HEADER -->
+<div id="hdr">
+  <div class="hdr-top">
+    <div>
+      <div class="brand">MKEYZ</div>
+      <div class="version">PUBLISHER · CONTENT SCHEDULER</div>
+    </div>
+    <div class="hdr-actions">
+      <button class="hbtn" style="border-color:rgba(255,184,48,.3);background:rgba(255,184,48,.06);color:var(--gold);" onclick="openTemplates()">☰ PLANTILLAS</button>
+      <button class="hbtn purple" onclick="openConfig()">⚙ CONFIG</button>
+      <button class="hbtn purple" onclick="openHelp()">? GUÍA</button>
+      <button class="hbtn" onclick="exportJSON()">⬇ JSON</button>
+      <button class="btn-add" onclick="openModal()">+</button>
+    </div>
+  </div>
+  <div class="week-nav">
+    <button class="arrow" onclick="changeWeek(-1)">‹</button>
+    <div class="week-label" id="weekLabel"></div>
+    <button class="arrow" onclick="changeWeek(1)">›</button>
+  </div>
+</div>
+
+<div id="statsBar"></div>
+<div id="weekGrid"></div>
+
+<!-- ADD/EDIT MODAL -->
+<div id="modal" class="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-handle"></div>
+    <div class="modal-title">
+      <span id="modalTitle">Nuevo Post</span>
+      <button class="modal-close" onclick="closeModal()">×</button>
+    </div>
+
+    <!-- AI GENERATOR -->
+    <div class="ai-box">
+      <div class="ai-box-title" style="justify-content:space-between;">✨ Generar con IA <button onclick="openTemplatePicker()" style="font-family:'Space Mono',monospace;font-size:7px;font-weight:700;padding:3px 8px;border-radius:6px;border:1px solid rgba(255,184,48,.3);background:rgba(255,184,48,.06);color:var(--gold);cursor:pointer;-webkit-tap-highlight-color:transparent;">☰ USAR PLANTILLA</button></div>
+      <input class="ai-topic" type="text" id="aiTopic" placeholder="Ej: beat trap oscuro con piano, nuevo sencillo bachata..."/>
+      <button class="btn-ai" onclick="generateWithAI()" id="btnAI">✨ Generar título, caption y hashtags</button>
+      <div class="ai-loading" id="aiLoading">
+        <div class="dot-pulse"></div><div class="dot-pulse"></div><div class="dot-pulse"></div>
+        <span>Generando para la plataforma...</span>
+      </div>
+      <div class="ai-no-key" id="aiNoKey">⚠ Configura tu API key de Gemini primero — botón ⚙ CONFIG arriba</div>
+    </div>
+
+    <div class="sec">Plataforma</div>
+    <div class="platform-grid">
+      <div class="plat-btn tiktok" data-plat="tiktok" onclick="selectPlat(this)"><span class="plat-icon">🎵</span>TikTok</div>
+      <div class="plat-btn instagram" data-plat="instagram" onclick="selectPlat(this)"><span class="plat-icon">📸</span>Instagram</div>
+      <div class="plat-btn youtube" data-plat="youtube" onclick="selectPlat(this)"><span class="plat-icon">▶</span>YouTube</div>
+      <div class="plat-btn facebook" data-plat="facebook" onclick="selectPlat(this)"><span class="plat-icon">👥</span>Facebook</div>
+    </div>
+
+    <div class="row2">
+      <div><label class="lbl">Fecha</label><input type="date" id="fDate"/></div>
+      <div><label class="lbl">Hora</label><input type="time" id="fTime" value="19:00"/></div>
+    </div>
+    <label class="lbl">Título (YouTube / opcional)</label>
+    <input type="text" id="fTitle" placeholder="Título del video..."/>
+    <label class="lbl">Caption</label>
+    <textarea id="fCaption" placeholder="Escribe el caption aquí o genera con IA..."></textarea>
+    <label class="lbl">Hashtags</label>
+    <input type="text" id="fHashtags" placeholder="#trap #beats #mkeyz"/>
+    <label class="lbl">Ruta del archivo</label>
+    <input type="text" id="fPath" placeholder="/home/mkeyz/content/mi-beat.mp4"/>
+
+    <div class="sec" style="margin-top:4px;">Estado</div>
+    <div class="status-grid">
+      <div class="st-btn draft active" data-st="draft" onclick="selectStatus(this)">BORRADOR</div>
+      <div class="st-btn ready" data-st="ready" onclick="selectStatus(this)">LISTO</div>
+      <div class="st-btn scheduled" data-st="scheduled" onclick="selectStatus(this)">PROG.</div>
+      <div class="st-btn published" data-st="published" onclick="selectStatus(this)">PUBLI.</div>
+    </div>
+    <label class="lbl">Notas internas</label>
+    <textarea id="fNotes" placeholder="Recordatorios, ideas, contexto..." style="min-height:44px;"></textarea>
+    <div class="btn-row">
+      <button class="btn btn-danger" id="btnDelete" onclick="deletePost()" style="display:none;">✕ Eliminar</button>
+      <button class="btn btn-mint" id="btnSave" onclick="savePost()">Guardar Post</button>
+    </div>
+  </div>
+</div>
+
+<!-- DETAIL MODAL -->
+<div id="detailModal">
+  <div id="detailBox">
+    <div class="modal-handle"></div>
+    <div id="detailContent"></div>
+    <div class="btn-row">
+      <button class="btn btn-ghost" onclick="closeDetail()">Cerrar</button>
+      <button class="btn btn-mint" onclick="editFromDetail()">✏ Editar</button>
+    </div>
+  </div>
+</div>
+
+<!-- CONFIG MODAL -->
+<div id="configModal" class="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-handle"></div>
+    <div class="modal-title">
+      <span>Configuración</span>
+      <button class="modal-close" onclick="closeConfig()">×</button>
+    </div>
+
+    <div class="sec purple">Gemini API</div>
+    <div class="config-info">
+      Obtén tu key gratuita en <a href="https://aistudio.google.com/apikey" target="_blank">aistudio.google.com/apikey</a><br>
+      No necesitas tarjeta. La key se guarda solo en este dispositivo.
+    </div>
+    <label class="lbl">API Key</label>
+    <div class="config-key-wrap">
+      <input type="password" id="cfgKey" placeholder="AIzaSy..."/>
+      <button class="key-toggle" onclick="toggleKeyVisibility()">👁</button>
+    </div>
+    <div class="key-status" id="keyStatus"></div>
+
+    <div class="sec" style="margin-top:4px;">Contexto del artista</div>
+    <div class="config-info">
+      Esto le dice a la IA quién eres para que los textos sean más personalizados y no genéricos.
+    </div>
+    <label class="lbl">Nombre artístico</label>
+    <input type="text" id="cfgArtist" placeholder="JEFFMKEYZ"/>
+    <label class="lbl">Géneros principales</label>
+    <input type="text" id="cfgGenres" placeholder="Trap Latino, Dembow, Bachata, Afrobeat"/>
+    <label class="lbl">Tono / estilo de comunicación</label>
+    <input type="text" id="cfgTone" placeholder="Auténtico, street, directo, sin poses"/>
+    <label class="lbl">Idioma de los posts</label>
+    <select id="cfgLang">
+      <option value="es">Español</option>
+      <option value="en">English</option>
+      <option value="both">Español + English</option>
+    </select>
+
+    <div class="btn-row">
+      <button class="btn btn-danger" onclick="deleteAPIKey()">✕ Eliminar key</button>
+      <button class="btn btn-mint" onclick="saveConfig()">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- HELP MODAL -->
+<div id="helpModal" class="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-handle"></div>
+    <div class="modal-title">
+      <span>Guía & Configuración</span>
+      <button class="modal-close" onclick="closeHelp()">×</button>
+    </div>
+    <div class="sec">Cómo funciona</div>
+    <div class="help-block">
+      <p>Centro de planificación de contenido. Tú organizas aquí, el servidor publica solo.</p>
+      <ul style="margin-top:8px;">
+        <li>Creas posts con plataforma, fecha, hora, caption y ruta del archivo</li>
+        <li>Usas ✨ IA para generar el texto adaptado a cada plataforma</li>
+        <li>Exportas el JSON — el servidor lo lee y publica a la hora exacta</li>
+        <li>El script actualiza el estado a <code>published</code> automáticamente</li>
+      </ul>
+    </div>
+    <div class="sec">Flujo de estados</div>
+    <div class="help-block">
+      <div class="status-flow">
+        <span class="sf-item st-draft">BORRADOR</span><span class="sf-arr">→</span>
+        <span class="sf-item st-ready">LISTO</span><span class="sf-arr">→</span>
+        <span class="sf-item st-scheduled">PROGRAMADO</span><span class="sf-arr">→</span>
+        <span class="sf-item st-published">PUBLICADO</span>
+      </div>
+      <ul>
+        <li><strong style="color:var(--muted);">BORRADOR</strong> — En construcción</li>
+        <li><strong style="color:var(--gold);">LISTO</strong> — Caption, archivo y hora confirmados</li>
+        <li><strong style="color:var(--blue);">PROGRAMADO</strong> — El servidor lo tiene en cola</li>
+        <li><strong style="color:var(--mint);">PUBLICADO</strong> — Ya está en la plataforma</li>
+      </ul>
+    </div>
+    <div class="sec gold">Plataformas & Automatización</div>
+    <div class="help-block"><ul>
+      <li><strong style="color:var(--tiktok);">TikTok</strong> — Bot Playwright, sesión guardada en servidor</li>
+      <li><strong style="color:var(--instagram);">Instagram</strong> — Bot Playwright, sesión persistente</li>
+      <li><strong style="color:var(--youtube);">YouTube</strong> — API oficial Google, más estable</li>
+      <li><strong style="color:var(--facebook);">Facebook</strong> — API oficial para páginas</li>
+    </ul></div>
+    <div class="sec purple">Convención de rutas</div>
+    <div class="help-block">
+      <code>/home/mkeyz/content/videos/nombre.mp4</code><br>
+      <code>/home/mkeyz/content/images/nombre.jpg</code><br>
+      <p style="margin-top:8px;">Lo que escribas en Ruta del archivo es lo que el script Python buscará en el servidor.</p>
+    </div>
+    <div class="sec pink">Estructura JSON exportado</div>
+    <div class="help-block">
+      <div class="json-block"><span class="json-key">"id"</span>: <span class="json-str">1747526400000</span>,     <span class="json-comment">// timestamp único</span>
+<span class="json-key">"platform"</span>: <span class="json-str">"tiktok"</span>,    <span class="json-comment">// tiktok|instagram|youtube|facebook</span>
+<span class="json-key">"date"</span>: <span class="json-str">"2026-05-20"</span>,    <span class="json-comment">// YYYY-MM-DD</span>
+<span class="json-key">"time"</span>: <span class="json-str">"19:00"</span>,        <span class="json-comment">// HH:MM (24h)</span>
+<span class="json-key">"title"</span>: <span class="json-str">"Título"</span>,      <span class="json-comment">// YouTube mainly</span>
+<span class="json-key">"caption"</span>: <span class="json-str">"Texto..."</span>,   <span class="json-comment">// caption completo</span>
+<span class="json-key">"hashtags"</span>: <span class="json-str">"#trap"</span>,     <span class="json-comment">// se añaden al caption</span>
+<span class="json-key">"media_path"</span>: <span class="json-str">"/home/..."</span>, <span class="json-comment">// ruta en servidor</span>
+<span class="json-key">"status"</span>: <span class="json-str">"ready"</span>        <span class="json-comment">// script busca "ready"</span></div>
+      <p>El script solo procesa posts con <code>status: "ready"</code> o <code>"scheduled"</code>.</p>
+    </div>
+    <div class="sec blue">Servidor (cuando lo tengas)</div>
+    <div class="help-block"><ul>
+      <li><code class="gold">pip install playwright google-api-python-client</code></li>
+      <li><code class="gold">playwright install chromium</code></li>
+      <li>Sesiones guardadas en <code>/home/mkeyz/browser-profile/</code></li>
+      <li>Cron revisa el JSON cada minuto y publica si la hora coincide</li>
+    </ul></div>
+    <div class="sec">Tips</div>
+    <div class="help-block"><ul>
+      <li>Planifica la semana completa los domingos</li>
+      <li>Usa ✨ IA para el primer borrador, luego ajusta a tu voz</li>
+      <li>YouTube es la plataforma más estable — empieza por ahí</li>
+      <li>Mejores horas TikTok: 7am, 12pm, 7pm hora local</li>
+      <li>Datos guardados en localStorage — no se pierden al cerrar</li>
+    </ul></div>
+    <button class="btn btn-ghost" onclick="closeHelp()" style="margin-top:8px;">Cerrar</button>
+  </div>
+</div>
+
+
+<!-- TEMPLATES MODAL -->
+<div id="tplModal" class="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-handle"></div>
+    <div class="modal-title">
+      <span>Plantillas</span>
+      <button class="modal-close" onclick="closeTplModal()">×</button>
+    </div>
+
+    <div class="sec gold">Nueva plantilla</div>
+    <label class="lbl">Nombre de la plantilla</label>
+    <input type="text" id="tplName" placeholder="Ej: Beat showcase TikTok"/>
+    <label class="lbl">Plataforma</label>
+    <select id="tplPlat">
+      <option value="all">Todas las plataformas</option>
+      <option value="tiktok">TikTok</option>
+      <option value="instagram">Instagram</option>
+      <option value="youtube">YouTube</option>
+      <option value="facebook">Facebook</option>
+    </select>
+    <div class="placeholder-hint">
+      Usa variables en el caption: <code>{tema}</code> <code>{artista}</code> <code>{genero}</code> <code>{fecha}</code><br>
+      La IA las reemplazará con el contexto del post cuando uses la plantilla.
+    </div>
+    <label class="lbl">Caption base</label>
+    <textarea id="tplCaption" placeholder="Ej: Nuevo beat disponible 🔥&#10;{tema}&#10;Link en bio 👇" style="min-height:90px;"></textarea>
+    <label class="lbl">Hashtags base</label>
+    <input type="text" id="tplHashtags" placeholder="#trap #beats #mkeyz"/>
+    <button class="btn btn-mint" onclick="saveTpl()" style="margin-bottom:16px;">+ Guardar plantilla</button>
+
+    <div class="sec gold">Mis plantillas</div>
+    <div id="tplList"></div>
+  </div>
+</div>
+
+<!-- TEMPLATE PICKER MODAL -->
+<div id="tplPicker" class="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-handle"></div>
+    <div class="modal-title">
+      <span>Elegir plantilla</span>
+      <button class="modal-close" onclick="closePicker()">×</button>
+    </div>
+    <p style="font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);margin-bottom:12px;line-height:1.6;">Selecciona una plantilla para cargar su caption y hashtags en el formulario.</p>
+    <div id="tplPickerList"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(()=>{
+  const KEY     = 'mkeyz_publisher_v1';
+  const CFG_KEY = 'mkeyz_publisher_cfg';
+  const TPL_KEY = 'mkeyz_publisher_tpl';
+  const DAYS    = ['DOM','LUN','MAR','MIÉ','JUE','VIE','SÁB'];
+  const MONTHS  = ['ENE','FEB','MAR','ABR','MAY','JUN','JUL','AGO','SEP','OCT','NOV','DIC'];
+
+  let S = {
+    posts: [], currentWeekOffset: 0,
+    editingId: null, selectedPlatform: 'tiktok',
+    selectedStatus: 'draft', detailId: null,
+  };
+  let CFG = { apiKey:'', artist:'', genres:'', tone:'', lang:'es' };
+  let TPLS = [];
+
+  /* ── STORAGE ── */
+  function save(){ localStorage.setItem(KEY, JSON.stringify(S.posts)); }
+  function load(){
+    try{ S.posts = JSON.parse(localStorage.getItem(KEY)||'[]'); }catch(e){ S.posts=[]; }
+    try{ Object.assign(CFG, JSON.parse(localStorage.getItem(CFG_KEY)||'{}')); }catch(e){}
+    try{ TPLS = JSON.parse(localStorage.getItem(TPL_KEY)||'[]'); }catch(e){ TPLS=[]; }
+  }
+  function saveCFG(){ localStorage.setItem(CFG_KEY, JSON.stringify(CFG)); }
+  function saveTpls(){ localStorage.setItem(TPL_KEY, JSON.stringify(TPLS)); }
+
+  /* ── TOAST ── */
+  function toast(msg){
+    const t=document.getElementById('toast');
+    t.textContent=msg; t.classList.add('show');
+    setTimeout(()=>t.classList.remove('show'),2400);
+  }
+
+  /* ── WEEK ── */
+  function getWeekDays(offset=0){
+    const now=new Date(), day=now.getDay();
+    const monday=new Date(now);
+    monday.setDate(now.getDate()-((day+6)%7)+offset*7);
+    monday.setHours(0,0,0,0);
+    return Array.from({length:7},(_,i)=>{
+      const d=new Date(monday); d.setDate(monday.getDate()+i); return d;
+    });
+  }
+  function fmtDate(d){ return d.toISOString().split('T')[0]; }
+  function isToday(d){ return fmtDate(d)===fmtDate(new Date()); }
+  function esc(t){ return String(t).replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  function statusLabel(s){ return {draft:'BORRADOR',ready:'LISTO',scheduled:'PROG.',published:'PUBLI.'}[s]||s; }
+
+  function renderWeekLabel(){
+    const days=getWeekDays(S.currentWeekOffset);
+    const s=days[0],e=days[6];
+    document.getElementById('weekLabel').textContent=
+      `${s.getDate()} ${MONTHS[s.getMonth()]} – ${e.getDate()} ${MONTHS[e.getMonth()]} ${e.getFullYear()}`;
+  }
+
+  function renderStats(){
+    const days=getWeekDays(S.currentWeekOffset);
+    const dateStrs=days.map(fmtDate);
+    const wp=S.posts.filter(p=>dateStrs.includes(p.date));
+    const counts={};
+    wp.forEach(p=>{ counts[p.platform]=(counts[p.platform]||0)+1; });
+    let html=`<div class="stat-pill"><span>${wp.length}</span>POSTS</div>
+      <div class="stat-pill gold"><span>${wp.filter(p=>p.status==='ready').length}</span>LISTOS</div>
+      <div class="stat-pill mint"><span>${wp.filter(p=>p.status==='published').length}</span>PUBLI.</div>`;
+    const sc=wp.filter(p=>p.status==='scheduled').length;
+    if(sc) html+=`<div class="stat-pill" style="border-color:rgba(0,229,255,.25);color:var(--blue)"><span>${sc}</span>PROG.</div>`;
+    ['tiktok','instagram','youtube','facebook'].forEach(p=>{
+      if(counts[p]) html+=`<div class="stat-pill">${p.toUpperCase()} <span style="margin-left:4px;">${counts[p]}</span></div>`;
+    });
+    document.getElementById('statsBar').innerHTML=html;
+  }
+
+  function renderGrid(){
+    const days=getWeekDays(S.currentWeekOffset);
+    document.getElementById('weekGrid').innerHTML=days.map(day=>{
+      const dateStr=fmtDate(day);
+      const dayPosts=S.posts.filter(p=>p.date===dateStr).sort((a,b)=>a.time.localeCompare(b.time));
+      const postsHTML=dayPosts.length
+        ?dayPosts.map(p=>`
+          <div class="post-card ${p.platform}" onclick="openDetail(${p.id})">
+            <div class="post-platform">${p.platform}</div>
+            <div class="post-time">${p.time}</div>
+            <div class="post-caption">${esc(p.caption||p.title||'Sin caption')}</div>
+            <span class="post-status st-${p.status}">${statusLabel(p.status)}</span>
+          </div>`).join('')
+        :`<div class="day-empty" onclick="openModalForDay('${dateStr}')">+<br>Post</div>`;
+      return `
+        <div class="day-col${isToday(day)?' today':''}">
+          <div class="day-hdr">
+            <div class="day-name">${DAYS[day.getDay()]}</div>
+            <div class="day-num">${day.getDate()}</div>
+          </div>
+          <div class="day-posts">${postsHTML}</div>
+          ${dayPosts.length?`<div class="day-empty" style="margin-top:5px;padding:6px 4px;" onclick="openModalForDay('${dateStr}')">+</div>`:''}
+        </div>`;
+    }).join('');
+  }
+
+  function render(){ renderWeekLabel(); renderStats(); renderGrid(); }
+  window.changeWeek=dir=>{ S.currentWeekOffset+=dir; render(); };
+
+  /* ── GEMINI AI ── */
+  const PLATFORM_INSTRUCTIONS = {
+    tiktok:    'TikTok: hook directo en la primera línea (máx 5 palabras impactantes), caption máx 3 líneas, tono casual y street, emojis estratégicos. Hashtags: mix de trending grandes (#fyp #parati) y nicho musical.',
+    instagram: 'Instagram: primera línea como gancho antes del "más", caption con personalidad en 4-6 líneas, puede ser más poético o reflexivo. Hashtags: 10-15 de nicho musical específico, sin los mega-genéricos.',
+    youtube:   'YouTube: título SEO-optimizado con palabras clave de búsqueda (Beat, Instrumental, año, género), descripción de 3-4 líneas con contexto y call to action. Hashtags: 3-5 relevantes.',
+    facebook:  'Facebook: tono más conversacional y comunidad, puede ser más largo y personal, pregunta al final para generar interacción. Hashtags: pocos, 3-5 máximo.',
+  };
+
+  window.generateWithAI = async ()=>{
+    const topic = document.getElementById('aiTopic').value.trim();
+    const noKey = document.getElementById('aiNoKey');
+    const loading = document.getElementById('aiLoading');
+    const btn = document.getElementById('btnAI');
+
+    noKey.classList.remove('show');
+
+    if(!CFG.apiKey){
+      noKey.classList.add('show');
+      return;
+    }
+    if(!topic) return toast('⚠️ Escribe el tema del post primero');
+
+    btn.disabled=true;
+    loading.classList.add('show');
+
+    const platInstr = PLATFORM_INSTRUCTIONS[S.selectedPlatform] || PLATFORM_INSTRUCTIONS.tiktok;
+    const artistCtx = CFG.artist
+      ? `Artista: ${CFG.artist}. Géneros: ${CFG.genres||'Trap Latino, Dembow'}. Tono: ${CFG.tone||'auténtico, street'}.`
+      : 'Artista independiente de música urbana latina.';
+
+    const prompt = `Eres un experto en marketing musical para artistas independientes latinos.
+
+${artistCtx}
+
+Crea contenido para esta publicación:
+Tema/contexto: "${topic}"
+Plataforma: ${S.selectedPlatform.toUpperCase()}
+
+Instrucciones de plataforma: ${platInstr}
+
+Idioma: ${CFG.lang==='en'?'English':CFG.lang==='both'?'Español con frases en English estratégicamente':'Español'}
+
+Responde ÚNICAMENTE con un JSON válido, sin markdown, sin explicaciones:
+{
+  "title": "título o gancho principal (para YouTube: optimizado SEO; para otras: el hook)",
+  "caption": "caption completo listo para publicar",
+  "hashtags": "hashtags separados por espacios"
+}`;
+
+    try{
+      const res = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${CFG.apiKey}`,
+        {
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body: JSON.stringify({contents:[{parts:[{text:prompt}]}]})
+        }
+      );
+      const data = await res.json();
+
+      if(data.error){
+        toast('❌ Error API: '+data.error.message);
+        return;
+      }
+
+      const raw = data?.candidates?.[0]?.content?.parts?.[0]?.text||'';
+      // Strip markdown code blocks if present
+      const clean = raw.replace(/```json|```/gi,'').trim();
+      const parsed = JSON.parse(clean);
+
+      if(parsed.title)    document.getElementById('fTitle').value    = parsed.title;
+      if(parsed.caption)  document.getElementById('fCaption').value  = parsed.caption;
+      if(parsed.hashtags) document.getElementById('fHashtags').value = parsed.hashtags;
+
+      toast('✨ Contenido generado');
+    } catch(err){
+      toast('❌ Error al generar — revisa la API key');
+      console.error(err);
+    } finally{
+      btn.disabled=false;
+      loading.classList.remove('show');
+    }
+  };
+
+  /* ── MODAL POST ── */
+  window.openModal=()=>{
+    S.editingId=null; resetForm();
+    document.getElementById('modalTitle').textContent='Nuevo Post';
+    document.getElementById('btnDelete').style.display='none';
+    document.getElementById('btnSave').style.gridColumn='1 / -1';
+    document.getElementById('fDate').value=fmtDate(new Date());
+    document.getElementById('modal').classList.add('open');
+  };
+  window.openModalForDay=dateStr=>{ openModal(); document.getElementById('fDate').value=dateStr; };
+  window.closeModal=()=>document.getElementById('modal').classList.remove('open');
+
+  function resetForm(){
+    ['fDate','fTitle','fCaption','fHashtags','fPath','fNotes','aiTopic'].forEach(id=>{
+      document.getElementById(id).value='';
+    });
+    document.getElementById('fTime').value='19:00';
+    document.getElementById('aiNoKey').classList.remove('show');
+    document.getElementById('aiLoading').classList.remove('show');
+    S.selectedPlatform='tiktok';
+    document.querySelectorAll('.plat-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelector('.plat-btn.tiktok').classList.add('active');
+    S.selectedStatus='draft';
+    document.querySelectorAll('.st-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelector('.st-btn.draft').classList.add('active');
+  }
+
+  window.selectPlat=el=>{
+    document.querySelectorAll('.plat-btn').forEach(b=>b.classList.remove('active'));
+    el.classList.add('active'); S.selectedPlatform=el.dataset.plat;
+  };
+  window.selectStatus=el=>{
+    document.querySelectorAll('.st-btn').forEach(b=>b.classList.remove('active'));
+    el.classList.add('active'); S.selectedStatus=el.dataset.st;
+  };
+
+  window.savePost=()=>{
+    const date=document.getElementById('fDate').value;
+    const time=document.getElementById('fTime').value;
+    const caption=document.getElementById('fCaption').value.trim();
+    const title=document.getElementById('fTitle').value.trim();
+    if(!date) return toast('⚠️ Elige una fecha');
+    if(!caption&&!title) return toast('⚠️ Caption o título requerido');
+    const post={
+      id:S.editingId||Date.now(),platform:S.selectedPlatform,
+      date,time,title,caption,
+      hashtags:document.getElementById('fHashtags').value.trim(),
+      media_path:document.getElementById('fPath').value.trim(),
+      notes:document.getElementById('fNotes').value.trim(),
+      status:S.selectedStatus,
+      created_at:S.editingId?(S.posts.find(p=>p.id===S.editingId)||{}).created_at||new Date().toISOString():new Date().toISOString(),
+    };
+    if(S.editingId){
+      const idx=S.posts.findIndex(p=>p.id===S.editingId);
+      if(idx>-1) S.posts[idx]=post;
+      toast('✅ Post actualizado');
+    } else { S.posts.push(post); toast('✅ Post guardado'); }
+    save(); closeModal(); closeDetail(); render();
+  };
+
+  window.deletePost=()=>{
+    if(!S.editingId) return;
+    S.posts=S.posts.filter(p=>p.id!==S.editingId);
+    save(); closeModal(); closeDetail(); render();
+    toast('🗑 Post eliminado');
+  };
+
+  /* ── DETAIL ── */
+  window.openDetail=id=>{
+    const p=S.posts.find(x=>x.id===id); if(!p) return;
+    S.detailId=id;
+    const platColors={tiktok:'var(--tiktok)',instagram:'var(--instagram)',youtube:'var(--youtube)',facebook:'var(--facebook)'};
+    document.getElementById('detailContent').innerHTML=`
+      <div class="detail-plat" style="color:${platColors[p.platform]||'var(--mint)'};">${p.platform.toUpperCase()} · ${statusLabel(p.status)}</div>
+      <div class="detail-time">${p.time} <span style="font-size:14px;color:var(--muted);font-weight:400;">${p.date}</span></div>
+      ${p.title?`<div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:8px;">${esc(p.title)}</div>`:''}
+      ${p.caption?`<div class="detail-caption">${esc(p.caption)}</div>`:''}
+      ${p.hashtags?`<div class="detail-hashtags">${esc(p.hashtags)}</div>`:''}
+      ${p.media_path?`<div class="sec" style="margin-top:4px;">Archivo</div><div class="detail-path">${esc(p.media_path)}</div>`:''}
+      ${p.notes?`<div class="sec">Notas</div><div style="font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);line-height:1.6;margin-bottom:12px;">${esc(p.notes)}</div>`:''}`;
+    document.getElementById('detailModal').classList.add('open');
+  };
+  window.closeDetail=()=>document.getElementById('detailModal').classList.remove('open');
+  window.editFromDetail=()=>{
+    const p=S.posts.find(x=>x.id===S.detailId); if(!p) return;
+    closeDetail();
+    S.editingId=p.id;
+    document.getElementById('modalTitle').textContent='Editar Post';
+    document.getElementById('fDate').value=p.date;
+    document.getElementById('fTime').value=p.time;
+    document.getElementById('fTitle').value=p.title||'';
+    document.getElementById('fCaption').value=p.caption||'';
+    document.getElementById('fHashtags').value=p.hashtags||'';
+    document.getElementById('fPath').value=p.media_path||'';
+    document.getElementById('fNotes').value=p.notes||'';
+    S.selectedPlatform=p.platform;
+    document.querySelectorAll('.plat-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelector(`.plat-btn.${p.platform}`)?.classList.add('active');
+    S.selectedStatus=p.status;
+    document.querySelectorAll('.st-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelector(`.st-btn.${p.status}`)?.classList.add('active');
+    document.getElementById('btnDelete').style.display='flex';
+    document.getElementById('btnSave').style.gridColumn='auto';
+    document.getElementById('modal').classList.add('open');
+  };
+
+  /* ── CONFIG ── */
+  window.openConfig=()=>{
+    document.getElementById('cfgKey').value=CFG.apiKey||'';
+    document.getElementById('cfgArtist').value=CFG.artist||'';
+    document.getElementById('cfgGenres').value=CFG.genres||'';
+    document.getElementById('cfgTone').value=CFG.tone||'';
+    document.getElementById('cfgLang').value=CFG.lang||'es';
+    updateKeyStatus();
+    document.getElementById('configModal').classList.add('open');
+  };
+  window.deleteAPIKey=()=>{
+    CFG.apiKey="";
+    saveCFG();
+    document.getElementById("cfgKey").value="";
+    updateKeyStatus();
+    toast("🗑 API key eliminada");
+  };
+  window.closeConfig=()=>document.getElementById('configModal').classList.remove('open');
+  window.saveConfig=()=>{
+    CFG.apiKey  = document.getElementById('cfgKey').value.trim();
+    CFG.artist  = document.getElementById('cfgArtist').value.trim();
+    CFG.genres  = document.getElementById('cfgGenres').value.trim();
+    CFG.tone    = document.getElementById('cfgTone').value.trim();
+    CFG.lang    = document.getElementById('cfgLang').value;
+    saveCFG(); closeConfig();
+    toast('✅ Configuración guardada');
+  };
+  window.toggleKeyVisibility=()=>{
+    const inp=document.getElementById('cfgKey');
+    inp.type=inp.type==='password'?'text':'password';
+  };
+  function updateKeyStatus(){
+    const el=document.getElementById('keyStatus');
+    if(CFG.apiKey){ el.textContent='✓ API key configurada'; el.className='key-status ok'; }
+    else{ el.textContent='✗ Sin API key — IA desactivada'; el.className='key-status no'; }
+  }
+
+  /* ── HELP ── */
+  window.openHelp=()=>document.getElementById('helpModal').classList.add('open');
+  window.closeHelp=()=>document.getElementById('helpModal').classList.remove('open');
+
+  /* ── EXPORT ── */
+  window.exportJSON=()=>{
+    const data={exported_at:new Date().toISOString(),total:S.posts.length,
+      posts:S.posts.sort((a,b)=>a.date.localeCompare(b.date)||a.time.localeCompare(b.time))};
+    const json=JSON.stringify(data,null,2);
+    const a=document.createElement('a');
+    a.href='data:application/json;charset=utf-8,'+encodeURIComponent(json);
+    a.download=`mkeyz-posts-${fmtDate(new Date())}.json`;
+    a.click();
+    toast('📦 JSON exportado');
+  };
+
+
+  /* ── TEMPLATES ── */
+  window.openTemplates = ()=>{
+    renderTplList();
+    document.getElementById('tplName').value='';
+    document.getElementById('tplCaption').value='';
+    document.getElementById('tplHashtags').value='';
+    document.getElementById('tplPlat').value='all';
+    document.getElementById('tplModal').classList.add('open');
+  };
+  window.closeTplModal = ()=>document.getElementById('tplModal').classList.remove('open');
+
+  window.saveTpl = ()=>{
+    const name = document.getElementById('tplName').value.trim();
+    const caption = document.getElementById('tplCaption').value.trim();
+    if(!name) return toast('⚠️ Ponle un nombre a la plantilla');
+    if(!caption) return toast('⚠️ El caption no puede estar vacío');
+    TPLS.push({
+      id: Date.now(),
+      name,
+      platform: document.getElementById('tplPlat').value,
+      caption,
+      hashtags: document.getElementById('tplHashtags').value.trim(),
+      created_at: new Date().toISOString(),
+    });
+    saveTpls();
+    document.getElementById('tplName').value='';
+    document.getElementById('tplCaption').value='';
+    document.getElementById('tplHashtags').value='';
+    renderTplList();
+    toast('✅ Plantilla guardada');
+  };
+
+  function renderTplList(){
+    const el = document.getElementById('tplList');
+    if(!TPLS.length){
+      el.innerHTML='<div class="tpl-empty">No tienes plantillas todavía.<br>Crea la primera arriba ↑</div>';
+      return;
+    }
+    el.innerHTML = TPLS.map(t=>`
+      <div class="tpl-card ${t.platform}">
+        <div class="tpl-plat">${t.platform==='all'?'TODAS LAS PLATAFORMAS':t.platform.toUpperCase()}</div>
+        <div class="tpl-name">${esc(t.name)}</div>
+        <div class="tpl-preview">${esc(t.caption)}</div>
+        ${t.hashtags?`<div style="font-family:'Space Mono',monospace;font-size:8px;color:var(--purple);margin-bottom:8px;">${esc(t.hashtags)}</div>`:''}
+        <div class="tpl-actions">
+          <button class="tpl-btn use" onclick="applyTemplate(${t.id})">✓ Usar</button>
+          <button class="tpl-btn del" onclick="deleteTpl(${t.id})">✕ Borrar</button>
+        </div>
+      </div>`).join('');
+  }
+
+  window.deleteTpl = id=>{
+    TPLS = TPLS.filter(t=>t.id!==id);
+    saveTpls(); renderTplList();
+    toast('🗑 Plantilla eliminada');
+  };
+
+  window.applyTemplate = (id, fromPicker=false)=>{
+    const t = TPLS.find(x=>x.id===id); if(!t) return;
+    const artist = CFG.artist||'JEFFMKEYZ';
+    const genre  = CFG.genres||'Trap Latino';
+    const today  = fmtDate(new Date());
+    let caption  = t.caption
+      .replace(/{artista}/gi, artist)
+      .replace(/{genero}/gi,  genre)
+      .replace(/{fecha}/gi,   today)
+      .replace(/{tema}/gi,    document.getElementById('aiTopic').value||'{tema}');
+    document.getElementById('fCaption').value  = caption;
+    if(t.hashtags) document.getElementById('fHashtags').value = t.hashtags;
+    if(fromPicker) closePicker();
+    closeTplModal();
+    toast('✅ Plantilla aplicada');
+  };
+
+  window.openTemplatePicker = ()=>{
+    const platform = S.selectedPlatform;
+    const filtered = TPLS.filter(t=>t.platform==='all'||t.platform===platform);
+    const el = document.getElementById('tplPickerList');
+    if(!filtered.length){
+      el.innerHTML=`<div class="tpl-empty">No hay plantillas para ${platform.toUpperCase()}.<br>Crea una desde ☰ PLANTILLAS.</div>`;
+    } else {
+      el.innerHTML = filtered.map(t=>`
+        <div class="picker-card ${t.platform}" onclick="applyTemplate(${t.id}, true)">
+          <div class="tpl-plat">${t.platform==='all'?'TODAS':t.platform.toUpperCase()}</div>
+          <div class="tpl-name">${esc(t.name)}</div>
+          <div class="tpl-preview">${esc(t.caption)}</div>
+        </div>`).join('');
+    }
+    document.getElementById('tplPicker').classList.add('open');
+  };
+  window.closePicker = ()=>document.getElementById('tplPicker').classList.remove('open');
+
+  /* ── BACKDROP CLOSE ── */
+  ['modal','configModal','helpModal','tplModal','tplPicker'].forEach(id=>{
+    document.getElementById(id).addEventListener('click',e=>{
+      if(e.target.id===id) document.getElementById(id).classList.remove('open');
+    });
+  });
+  document.getElementById('detailModal').addEventListener('click',e=>{
+    if(e.target.id==='detailModal') closeDetail();
+  });
+
+  load(); render();
+})();
+</script>
+</body>
+</html>
