@@ -333,6 +333,43 @@ textarea{resize:vertical;min-height:70px;line-height:1.6;}
 .type-btn.active.productor{border-color:var(--gold);background:rgba(255,184,48,.08);color:var(--gold);}
 .type-btn.active.influencer{border-color:var(--purple);background:rgba(124,58,255,.08);color:var(--purple);}
 
+
+/* ── MEDIA LIBRARY ── */
+#mediaModal .modal-box{max-height:95vh;}
+.media-search-bar{display:flex;gap:6px;margin-bottom:10px;align-items:center;}
+.media-search-bar input{flex:1;margin-bottom:0;font-size:11px;}
+.media-search-bar button{flex-shrink:0;padding:10px 14px;border:none;border-radius:var(--r-sm);background:var(--mint);color:#000;font-family:'Space Mono',monospace;font-size:9px;font-weight:700;cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.media-filters{display:flex;gap:6px;margin-bottom:10px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px;}
+.media-filters::-webkit-scrollbar{display:none;}
+.mf-btn{flex-shrink:0;font-family:'Space Mono',monospace;font-size:8px;font-weight:700;padding:5px 10px;border-radius:20px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);color:rgba(255,255,255,.6);cursor:pointer;transition:all .15s;-webkit-tap-highlight-color:transparent;}
+.mf-btn.active{border-color:var(--mint);background:rgba(0,245,160,.12);color:var(--mint);}
+.media-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:12px;}
+.media-card{position:relative;border-radius:var(--r-sm);overflow:hidden;cursor:pointer;aspect-ratio:9/16;background:var(--dim);transition:transform .15s;-webkit-tap-highlight-color:transparent;}
+.media-card.horizontal{aspect-ratio:16/9;}
+.media-card:active{transform:scale(.97);}
+.media-card img{width:100%;height:100%;object-fit:cover;}
+.media-card-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.8) 0%,transparent 50%);}
+.media-card-badges{position:absolute;bottom:5px;left:5px;right:5px;display:flex;justify-content:space-between;align-items:flex-end;}
+.media-badge{font-family:'Space Mono',monospace;font-size:7px;font-weight:700;padding:2px 5px;border-radius:4px;background:rgba(0,0,0,.7);}
+.media-badge.vid{color:var(--mint);border:1px solid rgba(0,245,160,.3);}
+.media-badge.photo{color:var(--blue);border:1px solid rgba(0,229,255,.3);}
+.media-badge.dur{color:var(--gold);}
+.media-fav-btn{position:absolute;top:5px;right:5px;width:24px;height:24px;border-radius:50%;border:none;background:rgba(0,0,0,.6);color:#fff;font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent;transition:all .15s;}
+.media-fav-btn.active{background:rgba(255,184,48,.3);color:var(--gold);}
+.media-use-btn{position:absolute;top:5px;left:5px;width:24px;height:24px;border-radius:50%;border:none;background:rgba(0,245,160,.3);color:var(--mint);font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent;}
+.media-load-more{width:100%;padding:10px;border:1px solid rgba(255,255,255,.1);border-radius:var(--r-sm);background:transparent;color:rgba(255,255,255,.5);font-family:'Space Mono',monospace;font-size:9px;font-weight:700;cursor:pointer;margin-bottom:10px;}
+.media-empty{text-align:center;padding:32px 16px;font-family:'Space Mono',monospace;font-size:9px;color:var(--dim);line-height:1.8;border:1px dashed rgba(255,255,255,.1);border-radius:var(--r-md);}
+.media-loading{text-align:center;padding:24px;color:var(--muted);font-family:'Space Mono',monospace;font-size:9px;}
+.media-preview-card{background:rgba(0,0,0,.4);border:1px solid rgba(0,245,160,.3);border-radius:var(--r-sm);padding:8px;display:flex;align-items:center;gap:8px;}
+.media-preview-thumb{width:44px;height:44px;border-radius:4px;object-fit:cover;flex-shrink:0;}
+.media-preview-info{flex:1;}
+.media-preview-type{font-family:'Space Mono',monospace;font-size:7px;font-weight:700;color:var(--mint);letter-spacing:.08em;text-transform:uppercase;}
+.media-preview-name{font-family:'Space Mono',monospace;font-size:9px;color:var(--text);margin:2px 0;}
+.media-preview-remove{background:none;border:none;color:var(--pink);font-size:16px;cursor:pointer;padding:4px;-webkit-tap-highlight-color:transparent;}
+.colls-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;}
+.coll-chip{font-family:'Space Mono',monospace;font-size:8px;font-weight:700;padding:4px 10px;border-radius:20px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);color:rgba(255,255,255,.6);cursor:pointer;-webkit-tap-highlight-color:transparent;display:flex;align-items:center;gap:4px;}
+.coll-chip.active{border-color:var(--gold);background:rgba(255,184,48,.1);color:var(--gold);}
+
 </style>
 </head>
 <body>
@@ -354,6 +391,7 @@ textarea{resize:vertical;min-height:70px;line-height:1.6;}
 
   <!-- TABS ROW: scrollable -->
   <div class="hdr-tabs">
+    <button class="hbtn" style="border-color:rgba(0,245,160,.5);background:rgba(0,245,160,.12);color:var(--mint);flex-shrink:0;" onclick="openMediaLibrary()">🎬 MEDIA</button>
     <button class="hbtn" style="border-color:rgba(124,58,255,.5);background:rgba(124,58,255,.14);color:#b794ff;flex-shrink:0;" onclick="openTagBank()">＃ TAGS</button>
     <button class="hbtn" style="border-color:rgba(0,229,255,.5);background:rgba(0,229,255,.12);color:#5eebff;flex-shrink:0;" onclick="openStats()">📊 STATS</button>
     <button class="hbtn" style="border-color:rgba(255,184,48,.5);background:rgba(255,184,48,.12);color:#ffd166;flex-shrink:0;" onclick="openTemplates()">☰ PLANTILLAS</button>
@@ -425,8 +463,10 @@ textarea{resize:vertical;min-height:70px;line-height:1.6;}
       <button onclick="openTagPicker()" style="font-family:'Space Mono',monospace;font-size:7px;font-weight:700;padding:3px 8px;border-radius:6px;border:1px solid rgba(124,58,255,.3);background:rgba(124,58,255,.06);color:var(--purple);cursor:pointer;-webkit-tap-highlight-color:transparent;">＃ BANCO</button>
     </div>
     <input type="text" id="fHashtags" placeholder="#trap #beats #mkeyz"/>
-    <label class="lbl">Ruta del archivo</label>
+    <label class="lbl">Ruta del archivo local</label>
     <input type="text" id="fPath" placeholder="/home/mkeyz/content/mi-beat.mp4"/>
+    <div id="mediaPreview" style="display:none;margin-bottom:10px;"></div>
+    <button onclick="openMediaPicker()" style="width:100%;padding:10px;border-radius:var(--r-sm);border:1px dashed rgba(0,245,160,.4);background:rgba(0,245,160,.04);color:var(--mint);font-family:'Space Mono',monospace;font-size:9px;font-weight:700;cursor:pointer;margin-bottom:10px;-webkit-tap-highlight-color:transparent;" id="btnMediaPick">🎬 Buscar en Pexels</button>
 
     <div class="sec" style="margin-top:4px;">Estado</div>
     <div class="status-grid">
@@ -467,7 +507,18 @@ textarea{resize:vertical;min-height:70px;line-height:1.6;}
       <button class="modal-close" onclick="closeConfig()">×</button>
     </div>
 
-    <div class="sec purple">Gemini API</div>
+    <div class="sec" style="color:var(--mint);">🎬 Pexels API</div>
+    <div class="config-info">
+      Key gratuita en <a href="https://www.pexels.com/api/" target="_blank" style="color:var(--mint);">pexels.com/api</a> — 200 req/hora, 20k/mes. No pegues la key en el chat.
+    </div>
+    <label class="lbl">Pexels API Key</label>
+    <div class="config-key-wrap">
+      <input type="password" id="cfgPexels" placeholder="Tu Pexels API Key..."/>
+      <button class="key-toggle" onclick="togglePexelsVisibility()">👁</button>
+    </div>
+    <div class="key-status" id="pexelsStatus"></div>
+
+    <div class="sec purple" style="margin-top:8px;">Gemini API</div>
     <div class="config-info">
       Obtén tu key gratuita en <a href="https://aistudio.google.com/apikey" target="_blank">aistudio.google.com/apikey</a><br>
       No necesitas tarjeta. La key se guarda solo en este dispositivo.
@@ -828,6 +879,78 @@ textarea{resize:vertical;min-height:70px;line-height:1.6;}
   </div>
 </div>
 
+
+<!-- MEDIA LIBRARY MODAL -->
+<div id="mediaModal" class="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-handle"></div>
+    <div class="modal-title">
+      <span>🎬 Media · Pexels</span>
+      <button class="modal-close" onclick="closeMediaLibrary()">×</button>
+    </div>
+
+    <!-- SEARCH -->
+    <div class="media-search-bar">
+      <input type="text" id="mediaQuery" placeholder="city night, beach groove, dark energy..." style="margin-bottom:0;" onkeydown="if(event.key==='Enter')searchMedia()"/>
+      <button onclick="searchMedia()">Buscar</button>
+    </div>
+
+    <!-- FILTERS -->
+    <div class="media-filters">
+      <div class="mf-btn active" data-filter="type" data-val="both" onclick="setFilter(this,'type')">📷+🎬 Ambos</div>
+      <div class="mf-btn" data-filter="type" data-val="photos" onclick="setFilter(this,'type')">📷 Fotos</div>
+      <div class="mf-btn" data-filter="type" data-val="videos" onclick="setFilter(this,'type')">🎬 Videos</div>
+      <div class="mf-btn active" data-filter="orient" data-val="portrait" onclick="setFilter(this,'orient')">📱 Vertical</div>
+      <div class="mf-btn" data-filter="orient" data-val="landscape" onclick="setFilter(this,'orient')">🖥 Horizontal</div>
+      <div class="mf-btn" data-filter="orient" data-val="all" onclick="setFilter(this,'orient')">↕ Todos</div>
+    </div>
+
+    <!-- COLLECTIONS -->
+    <div class="sec gold" style="margin-bottom:6px;">⭐ Favoritos & Colecciones</div>
+    <div class="colls-row" id="collsRow">
+      <div class="coll-chip active" data-coll="all" onclick="switchColl(this)">★ Todos los favoritos</div>
+    </div>
+    <div id="favsGrid" class="media-grid"></div>
+
+    <!-- NEW COLLECTION INPUT -->
+    <div style="display:flex;gap:6px;margin-bottom:12px;">
+      <input type="text" id="newCollName" placeholder="Nueva colección..." style="margin-bottom:0;font-size:10px;flex:1;"/>
+      <button onclick="createCollection()" style="flex-shrink:0;padding:8px 12px;border-radius:var(--r-sm);border:1px solid rgba(255,184,48,.3);background:rgba(255,184,48,.08);color:var(--gold);font-family:'Space Mono',monospace;font-size:8px;font-weight:700;cursor:pointer;">+ Colección</button>
+    </div>
+
+    <!-- RESULTS -->
+    <div class="sec" style="margin-bottom:6px;">Resultados</div>
+    <div id="mediaResults"></div>
+  </div>
+</div>
+
+<!-- MEDIA PICKER (from post form) -->
+<div id="mediaPickerModal" class="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-handle"></div>
+    <div class="modal-title">
+      <span>🎬 Elegir Media</span>
+      <button class="modal-close" onclick="closeMediaPicker()">×</button>
+    </div>
+    <div class="media-search-bar">
+      <input type="text" id="pickerQuery" placeholder="Buscar en Pexels..." style="margin-bottom:0;" onkeydown="if(event.key==='Enter')searchPicker()"/>
+      <button onclick="searchPicker()">Buscar</button>
+    </div>
+    <div class="media-filters">
+      <div class="mf-btn active" data-filter="ptype" data-val="both" onclick="setFilter(this,'ptype')">📷+🎬</div>
+      <div class="mf-btn" data-filter="ptype" data-val="photos" onclick="setFilter(this,'ptype')">📷 Fotos</div>
+      <div class="mf-btn" data-filter="ptype" data-val="videos" onclick="setFilter(this,'ptype')">🎬 Videos</div>
+      <div class="mf-btn active" data-filter="porient" data-val="portrait" onclick="setFilter(this,'porient')">📱 Vertical</div>
+      <div class="mf-btn" data-filter="porient" data-val="landscape" onclick="setFilter(this,'porient')">🖥 Horizontal</div>
+      <div class="mf-btn" data-filter="porient" data-val="all" onclick="setFilter(this,'porient')">↕ Todos</div>
+    </div>
+    <div class="sec gold" style="margin-bottom:6px;">⭐ Favoritos</div>
+    <div id="pickerFavs" class="media-grid" style="margin-bottom:12px;"></div>
+    <div class="sec" style="margin-bottom:6px;">Resultados</div>
+    <div id="pickerResults"></div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
@@ -843,7 +966,7 @@ textarea{resize:vertical;min-height:70px;line-height:1.6;}
     editingId: null, selectedPlatform: 'tiktok',
     selectedStatus: 'draft', detailId: null,
   };
-  let CFG = { apiKey:'', artist:'', genres:'', tone:'', lang:'es' };
+  let CFG = { apiKey:'', pexelsKey:'', artist:'', genres:'', tone:'', lang:'es' };
   let TPLS = []; // loaded per-profile
 
   /* ── STORAGE ── */
@@ -912,7 +1035,7 @@ textarea{resize:vertical;min-height:70px;line-height:1.6;}
           <div class="post-card ${p.platform}" onclick="openDetail(${p.id})">
             <div class="post-platform">${p.platform}</div>
             <div class="post-time">${p.time}</div>
-            <div class="post-caption">${esc(p.caption||p.title||'Sin caption')}</div>
+            ${p.media?`<img src="${p.media.thumb}" style="width:100%;height:36px;object-fit:cover;border-radius:4px;margin-bottom:4px;opacity:.8;"/>`:''}            <div class="post-caption">${esc(p.caption||p.title||'Sin caption')}</div>
             <span class="post-status st-${p.status}">${statusLabel(p.status)}</span>
           </div>`).join('')
         :`<div class="day-empty" onclick="openModalForDay('${dateStr}')">+<br>Post</div>`;
@@ -1246,6 +1369,7 @@ Responde ÚNICAMENTE con un JSON válido, sin markdown:
     document.getElementById('fHashtags').value=p.hashtags||'';
     document.getElementById('fPath').value=p.media_path||'';
     document.getElementById('fNotes').value=p.notes||'';
+    S_postMedia = p.media||null; renderMediaPreview();
     S.selectedPlatform=p.platform;
     document.querySelectorAll('.plat-btn').forEach(b=>b.classList.remove('active'));
     document.querySelector(`.plat-btn.${p.platform}`)?.classList.add('active');
@@ -1260,11 +1384,13 @@ Responde ÚNICAMENTE con un JSON válido, sin markdown:
   /* ── CONFIG ── */
   window.openConfig=()=>{
     document.getElementById('cfgKey').value=CFG.apiKey||'';
+    document.getElementById('cfgPexels').value=CFG.pexelsKey||'';
     document.getElementById('cfgArtist').value=CFG.artist||'';
     document.getElementById('cfgGenres').value=CFG.genres||'';
     document.getElementById('cfgTone').value=CFG.tone||'';
     document.getElementById('cfgLang').value=CFG.lang||'es';
     updateKeyStatus();
+    updatePexelsStatus();
     document.getElementById('configModal').classList.add('open');
   };
   window.deleteAPIKey=()=>{
@@ -1276,11 +1402,12 @@ Responde ÚNICAMENTE con un JSON válido, sin markdown:
   };
   window.closeConfig=()=>document.getElementById('configModal').classList.remove('open');
   window.saveConfig=()=>{
-    CFG.apiKey  = document.getElementById('cfgKey').value.trim();
-    CFG.artist  = document.getElementById('cfgArtist').value.trim();
-    CFG.genres  = document.getElementById('cfgGenres').value.trim();
-    CFG.tone    = document.getElementById('cfgTone').value.trim();
-    CFG.lang    = document.getElementById('cfgLang').value;
+    CFG.apiKey    = document.getElementById('cfgKey').value.trim();
+    CFG.pexelsKey = document.getElementById('cfgPexels').value.trim();
+    CFG.artist    = document.getElementById('cfgArtist').value.trim();
+    CFG.genres    = document.getElementById('cfgGenres').value.trim();
+    CFG.tone      = document.getElementById('cfgTone').value.trim();
+    CFG.lang      = document.getElementById('cfgLang').value;
     saveCFG(); closeConfig();
     toast('✅ Configuración guardada');
   };
@@ -1927,8 +2054,258 @@ Responde ÚNICAMENTE con JSON válido, sin markdown:
     }
   };
 
+
+  /* ── PEXELS MEDIA ── */
+  const MEDIA_FAV_KEY  = 'mkeyz_media_favs';
+  const MEDIA_COLL_KEY = 'mkeyz_media_colls';
+  let FAVS  = [];
+  let COLLS = []; // [{id,name,items:[mediaId,...]}]
+  let MEDIA_FILTERS = { type:'both', orient:'portrait' };
+  let PICKER_FILTERS = { type:'both', orient:'portrait' };
+  let MEDIA_PAGE = 1;
+  let MEDIA_LAST_QUERY = '';
+  let ACTIVE_COLL = 'all';
+  let S_postMedia = null; // media assigned to current post being edited
+
+  function loadMedia(){
+    try{ FAVS  = JSON.parse(localStorage.getItem(MEDIA_FAV_KEY)||'[]'); }catch(e){ FAVS=[]; }
+    try{ COLLS = JSON.parse(localStorage.getItem(MEDIA_COLL_KEY)||'[]'); }catch(e){ COLLS=[]; }
+  }
+  function saveFavs(){ localStorage.setItem(MEDIA_FAV_KEY, JSON.stringify(FAVS)); }
+  function saveColls(){ localStorage.setItem(MEDIA_COLL_KEY, JSON.stringify(COLLS)); }
+
+  function updatePexelsStatus(){
+    const el = document.getElementById('pexelsStatus');
+    if(!el) return;
+    if(CFG.pexelsKey){ el.textContent='✓ Pexels key configurada'; el.className='key-status ok'; }
+    else{ el.textContent='✗ Sin Pexels key — media desactivado'; el.className='key-status no'; }
+  }
+  window.togglePexelsVisibility = ()=>{
+    const inp = document.getElementById('cfgPexels');
+    inp.type = inp.type==='password'?'text':'password';
+  };
+
+  async function pexelsFetch(endpoint, params){
+    if(!CFG.pexelsKey) return null;
+    const url = endpoint + '?' + new URLSearchParams(params).toString();
+    const res = await fetch(url, { headers:{ Authorization: CFG.pexelsKey } });
+    if(!res.ok) throw new Error('Pexels ' + res.status);
+    return res.json();
+  }
+
+  function buildOrientParam(orient){
+    if(orient==='all') return {};
+    return { orientation: orient };
+  }
+
+  async function fetchMedia(query, type, orient, page=1){
+    const results = [];
+    const orientP = buildOrientParam(orient);
+    try{
+      if(type==='photos'||type==='both'){
+        const d = await pexelsFetch('https://api.pexels.com/v1/search',
+          { query, per_page:12, page, ...orientP });
+        if(d?.photos) d.photos.forEach(p=>results.push({
+          id:'ph_'+p.id, pexels_id:p.id, type:'photo',
+          thumb: p.src.medium, full: p.src.large,
+          url: p.url, photographer: p.photographer,
+          width:p.width, height:p.height,
+          orientation: p.width>p.height?'landscape':'portrait',
+        }));
+      }
+      if(type==='videos'||type==='both'){
+        const d = await pexelsFetch('https://api.pexels.com/videos/search',
+          { query, per_page:12, page, ...orientP });
+        if(d?.videos) d.videos.forEach(v=>{
+          const file = v.video_files?.find(f=>f.quality==='hd')||v.video_files?.[0];
+          const thumb = v.video_pictures?.[0]?.picture;
+          results.push({
+            id:'vd_'+v.id, pexels_id:v.id, type:'video',
+            thumb, full: file?.link, url: v.url,
+            duration: v.duration, photographer: v.user?.name||'Pexels',
+            width:v.width, height:v.height,
+            orientation: v.width>v.height?'landscape':'portrait',
+          });
+        });
+      }
+    } catch(err){ console.error(err); }
+    // Sort: videos first for TikTok/Instagram vibe, then photos
+    return results.sort((a,b)=> a.type==='video'&&b.type==='photo'?-1:1);
+  }
+
+  function mediaCardHTML(m, showUse=false){
+    const isFav = FAVS.some(f=>f.id===m.id);
+    const isHoriz = m.orientation==='landscape';
+    return `
+      <div class="media-card${isHoriz?' horizontal':''}" style="aspect-ratio:${isHoriz?'16/9':'9/16'}">
+        <img src="${m.thumb}" loading="lazy" onerror="this.style.background='var(--dim)'"/>
+        <div class="media-card-overlay"></div>
+        <div class="media-card-badges">
+          <span class="media-badge ${m.type==='video'?'vid':'photo'}">${m.type==='video'?'▶ VIDEO':'📷 FOTO'}</span>
+          ${m.duration?`<span class="media-badge dur">${m.duration}s</span>`:''}
+        </div>
+        <button class="media-fav-btn${isFav?' active':''}" onclick="toggleFav(event,'${m.id}')" title="Favorito">
+          ${isFav?'★':'☆'}
+        </button>
+        ${showUse?`<button class="media-use-btn" onclick="assignMedia(event,'${m.id}')" title="Usar en post">✓</button>`:''}
+      </div>`;
+  }
+
+  /* Store media objects by id for quick lookup */
+  const MEDIA_CACHE = {};
+  function cacheMedia(items){ items.forEach(m=>{ MEDIA_CACHE[m.id]=m; }); }
+
+  window.toggleFav = (e, id)=>{
+    e.stopPropagation();
+    const m = MEDIA_CACHE[id]; if(!m) return;
+    const idx = FAVS.findIndex(f=>f.id===id);
+    if(idx>-1){ FAVS.splice(idx,1); toast('✕ Eliminado de favoritos'); }
+    else{ FAVS.unshift(m); toast('⭐ Añadido a favoritos'); }
+    saveFavs();
+    // Update button
+    const btn = e.target.closest('.media-fav-btn');
+    if(btn){ btn.classList.toggle('active'); btn.textContent=idx>-1?'☆':'★'; }
+    renderFavsGrid();
+    renderPickerFavs();
+  };
+
+  window.assignMedia = (e, id)=>{
+    e.stopPropagation();
+    const m = MEDIA_CACHE[id]; if(!m) return;
+    S_postMedia = m;
+    renderMediaPreview();
+    closeMediaPicker();
+    toast('🎬 Media asignado al post');
+  };
+
+  function renderMediaPreview(){
+    const el = document.getElementById('mediaPreview');
+    const btn = document.getElementById('btnMediaPick');
+    if(!S_postMedia){ el.style.display='none'; btn.textContent='🎬 Buscar en Pexels'; return; }
+    const m = S_postMedia;
+    el.style.display='block';
+    el.innerHTML=`
+      <div class="media-preview-card">
+        <img class="media-preview-thumb" src="${m.thumb}" onerror="this.style.background='var(--dim)'"/>
+        <div class="media-preview-info">
+          <div class="media-preview-type">${m.type==='video'?'🎬 VIDEO':'📷 FOTO'} · ${m.orientation==='portrait'?'📱 VERTICAL':'🖥 HORIZONTAL'}${m.duration?' · '+m.duration+'s':''}</div>
+          <div class="media-preview-name">${m.photographer||'Pexels'}</div>
+          <a href="${m.url}" target="_blank" style="font-family:'Space Mono',monospace;font-size:7px;color:var(--mint);">Ver en Pexels ↗</a>
+        </div>
+        <button class="media-preview-remove" onclick="removePostMedia()" title="Quitar">×</button>
+      </div>`;
+    btn.textContent='🎬 Cambiar media';
+  }
+
+  window.removePostMedia = ()=>{ S_postMedia=null; renderMediaPreview(); };
+
+  /* Library */
+  window.openMediaLibrary = ()=>{
+    if(!CFG.pexelsKey){ toast('⚠️ Configura la Pexels key en ⚙ CONFIG'); return; }
+    loadMedia(); renderFavsGrid(); renderCollsRow();
+    document.getElementById('mediaResults').innerHTML='<div class="media-empty">Busca algo arriba para ver resultados 🔍</div>';
+    document.getElementById('mediaModal').classList.add('open');
+  };
+  window.closeMediaLibrary = ()=>document.getElementById('mediaModal').classList.remove('open');
+
+  function renderFavsGrid(){
+    const el = document.getElementById('favsGrid');
+    const items = ACTIVE_COLL==='all' ? FAVS
+      : (COLLS.find(c=>c.id===ACTIVE_COLL)?.items||[]).map(id=>MEDIA_CACHE[id]||FAVS.find(f=>f.id===id)).filter(Boolean);
+    if(!items.length){ el.innerHTML='<div class="media-empty" style="grid-column:1/-1;padding:16px;">Sin favoritos todavía.<br>Pulsa ☆ en cualquier clip.</div>'; return; }
+    cacheMedia(items);
+    el.innerHTML = items.map(m=>mediaCardHTML(m,false)).join('');
+  }
+
+  function renderCollsRow(){
+    const el = document.getElementById('collsRow');
+    el.innerHTML = `<div class="coll-chip${ACTIVE_COLL==='all'?' active':''}" data-coll="all" onclick="switchColl(this)">★ Todos</div>` +
+      COLLS.map(c=>`<div class="coll-chip${ACTIVE_COLL===c.id?' active':''}" data-coll="${c.id}" onclick="switchColl(this)">${esc(c.name)} <span style="opacity:.5;">${c.items.length}</span></div>`).join('') +
+      `<div class="coll-chip" onclick="document.getElementById('newCollName').focus()" style="border-style:dashed;">+</div>`;
+  }
+
+  window.switchColl = el=>{
+    ACTIVE_COLL = el.dataset.coll;
+    document.querySelectorAll('#collsRow .coll-chip').forEach(c=>c.classList.remove('active'));
+    el.classList.add('active');
+    renderFavsGrid();
+  };
+
+  window.createCollection = ()=>{
+    const name = document.getElementById('newCollName').value.trim();
+    if(!name) return toast('⚠️ Ponle un nombre a la colección');
+    COLLS.push({ id:'coll_'+Date.now(), name, items:[] });
+    saveColls(); renderCollsRow();
+    document.getElementById('newCollName').value='';
+    toast('✅ Colección creada');
+  };
+
+  window.setFilter = (el, group)=>{
+    const siblings = document.querySelectorAll(`[data-filter="${group}"]`);
+    siblings.forEach(s=>s.classList.remove('active'));
+    el.classList.add('active');
+    const val = el.dataset.val;
+    if(group==='type')   MEDIA_FILTERS.type   = val;
+    if(group==='orient') MEDIA_FILTERS.orient = val;
+    if(group==='ptype')  PICKER_FILTERS.type   = val;
+    if(group==='porient')PICKER_FILTERS.orient = val;
+  };
+
+  window.searchMedia = async ()=>{
+    const query = document.getElementById('mediaQuery').value.trim();
+    if(!query) return toast('⚠️ Escribe algo para buscar');
+    MEDIA_LAST_QUERY = query; MEDIA_PAGE = 1;
+    const el = document.getElementById('mediaResults');
+    el.innerHTML='<div class="media-loading">Buscando...</div>';
+    const results = await fetchMedia(query, MEDIA_FILTERS.type, MEDIA_FILTERS.orient, 1);
+    cacheMedia(results);
+    if(!results.length){ el.innerHTML='<div class="media-empty">Sin resultados. Prueba otro término.</div>'; return; }
+    el.innerHTML = `<div class="media-grid">${results.map(m=>mediaCardHTML(m,false)).join('')}</div>
+      <button class="media-load-more" onclick="loadMore()">Cargar más</button>`;
+  };
+
+  window.loadMore = async ()=>{
+    MEDIA_PAGE++;
+    const results = await fetchMedia(MEDIA_LAST_QUERY, MEDIA_FILTERS.type, MEDIA_FILTERS.orient, MEDIA_PAGE);
+    if(!results.length) return toast('No hay más resultados');
+    cacheMedia(results);
+    const grid = document.querySelector('#mediaResults .media-grid');
+    if(grid) grid.insertAdjacentHTML('beforeend', results.map(m=>mediaCardHTML(m,false)).join(''));
+  };
+
+  /* Picker (from post form) */
+  window.openMediaPicker = ()=>{
+    if(!CFG.pexelsKey){ toast('⚠️ Configura la Pexels key en ⚙ CONFIG'); return; }
+    loadMedia(); renderPickerFavs();
+    document.getElementById('pickerResults').innerHTML='<div class="media-empty">Busca algo o elige de favoritos ⭐</div>';
+    document.getElementById('mediaPickerModal').classList.add('open');
+  };
+  window.closeMediaPicker = ()=>document.getElementById('mediaPickerModal').classList.remove('open');
+
+  function renderPickerFavs(){
+    const el = document.getElementById('pickerFavs');
+    if(!FAVS.length){ el.innerHTML='<div class="media-empty" style="grid-column:1/-1;padding:12px;font-size:8px;">Sin favoritos. Añade desde 🎬 MEDIA.</div>'; return; }
+    cacheMedia(FAVS);
+    el.innerHTML = FAVS.slice(0,6).map(m=>mediaCardHTML(m,true)).join('');
+  }
+
+  window.searchPicker = async ()=>{
+    const query = document.getElementById('pickerQuery').value.trim();
+    if(!query) return toast('⚠️ Escribe algo para buscar');
+    const el = document.getElementById('pickerResults');
+    el.innerHTML='<div class="media-loading">Buscando...</div>';
+    const results = await fetchMedia(query, PICKER_FILTERS.type, PICKER_FILTERS.orient, 1);
+    cacheMedia(results);
+    if(!results.length){ el.innerHTML='<div class="media-empty">Sin resultados.</div>'; return; }
+    el.innerHTML = `<div class="media-grid">${results.map(m=>mediaCardHTML(m,true)).join('')}</div>`;
+  };
+
+  /* Reset media on new post */
+  const _origOpenModal = window.openModal;
+  window.openModal = ()=>{ S_postMedia=null; _origOpenModal(); renderMediaPreview(); };
+
   /* ── BACKDROP CLOSE ── */
-  ['modal','configModal','helpModal','tplModal','tplPicker','statsModal','tagBankModal','tagPickerModal','profileModal'].forEach(id=>{
+  ['modal','configModal','helpModal','tplModal','tplPicker','statsModal','tagBankModal','tagPickerModal','profileModal','mediaModal','mediaPickerModal'].forEach(id=>{
     document.getElementById(id).addEventListener('click',e=>{
       if(e.target.id===id) document.getElementById(id).classList.remove('open');
     });
@@ -1937,7 +2314,7 @@ Responde ÚNICAMENTE con JSON válido, sin markdown:
     if(e.target.id==='detailModal') closeDetail();
   });
 
-  load(); loadProfiles(); loadTplsForProfile(); renderProfileBar(); render(); attachDraftListeners();
+  load(); loadMedia(); loadProfiles(); loadTplsForProfile(); renderProfileBar(); render(); attachDraftListeners();
 })();
 </script>
 </body>
